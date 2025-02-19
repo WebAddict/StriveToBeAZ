@@ -12,7 +12,7 @@ Outside of this repo, you can start a new project with this template using [C3](
 npm create cloudflare@latest -- --template=cloudflare/templates/webaddict-strivetobeaz
 ```
 
-A live public deployment of this template is available at [https://webaddict-strivetobeaz.templates.workers.dev](https://webaddict-strivetobeaz.templates.workers.dev)
+A live public deployment of this template is available at [https://strivetobeaz.webaddict.workers.dev](https://strivetobeaz.webaddict.workers.dev)
 
 ## Getting Started
 
