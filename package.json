@@ -1,8 +1,8 @@
 {
-  "name": "webaddict-strivetobeaz",
+  "name": "strivetobeaz",
   "description": "Strive To Be comes to Arizona!",
   "cloudflare": {
-    "label": "Next.js Framework Starter",
+    "label": "Strive To Be comes to Arizona",
     "products": [
       "Workers"
     ],
