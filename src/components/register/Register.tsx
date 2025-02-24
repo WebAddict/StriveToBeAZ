@@ -62,7 +62,7 @@ export default function Register() {
 
   return (
     <div className={styles.container}>
-      <h1>Register for the Concert</h1>
+      <h1 className={styles.formHeader}>Register for the Concert</h1>
       <form onSubmit={() => handleSubmit} className={styles.form}>
         <input
           type="text"
