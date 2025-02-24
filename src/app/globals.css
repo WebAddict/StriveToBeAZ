@@ -25,7 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
+.h-12rem {
+  height: 10rem;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -11,5 +11,12 @@
   "observability": {
     "enabled": true
   },
-  "upload_source_maps": true
+  "upload_source_maps": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "concert-registrations",
+      "database_id": "6ac9344d-f62a-4724-853f-e66b8aadeb01"
+    }
+  ]
 }
