@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from 'react';
-import styles from '../styles/Register.module.css'; // Add CSS module later
+import styles from '../register/register.module.css';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -12,11 +14,11 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -55,7 +57,7 @@ export default function Register() {
   return (
     <div className={styles.container}>
       <h1>Register for the Concert</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={() => handleSubmit} className={styles.form}>
         <input
           type="text"
           name="firstName"
