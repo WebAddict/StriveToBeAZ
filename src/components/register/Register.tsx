@@ -2,109 +2,171 @@
 
 import { useState } from 'react';
 import styles from './register.module.css';
+import { toast } from 'react-toastify';
+import { RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
 
-export default function Register() {
-  const [formData, setFormData] = useState({
+export default function Register({ event }: { event: string }) {
+  const INITIAL_USER_REGISTRATION : RegisterData = {
     firstName: '',
     lastName: '',
     email: '',
     mobile: '',
-  });
-  const [ticket, setTicket] = useState(null);
+    religion: '',
+    age: '',
+    event: event,
+  };
+  const [userRegistration, setUserRegistration] = useState<RegisterData>(INITIAL_USER_REGISTRATION);
   const [error, setError] = useState('');
+  const [mobileError, setMobileError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Function to handle form field changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setUserRegistration((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
     setError('');
+    setEmailError('');
+    setMobileError('');
 
+    if (!validateEmailInput(userRegistration.email)) {
+      setEmailError('Invalid email');
+      setLoading(false);
+      return;
+    }
+
+    if (!validatePhoneInput(userRegistration.mobile)) {
+      setMobileError('Invalid phone');
+      setLoading(false);
+      return;
+    }
     try {
-        const res = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userRegistration),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success('Registration successful!', {
+          position: 'top-center',
+          style: {
+            backgroundColor: '#28a745',
+            color: '#fff',
+            fontSize: '18px',
+            padding: '15px 25px', 
+            maxWidth: '400px',
+            minWidth: '250px',
+          },
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Registration failed');
-        setTicket(data.ticket);
-      } catch (err: unknown) {
-        // Narrowing the type of `err` to `Error` before accessing `message`
-        if (err instanceof Error) {
-          setError(err.message);
+        setUserRegistration(INITIAL_USER_REGISTRATION);
+      } else {
+        if (data && typeof data === 'object' && 'error' in data) {
+          const errorMessage = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
+          toast.error('Registration failed!', {
+            position: 'top-center',
+            style: {
+              backgroundColor: '#dc3545',
+              color: '#fff',
+              fontSize: '18px',
+              padding: '15px 25px',
+              maxWidth: '400px',
+              minWidth: '250px',
+            },
+          });
         } else {
-          // In case the error is not an instance of Error
-          setError('An unknown error occurred');
+          throw new Error('Registration failed with an unknown error');
         }
-      } finally {
-        setLoading(false);
-      }      
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setLoading(false);
+    }      
   };
-
-//   if (ticket) {
-//     return (
-//       <div className={styles.ticketContainer}>
-//         <h1>Your Concert Ticket</h1>
-//         <p>Ticket Number: {ticket.ticket_number}</p>
-//         <p>Name: {ticket.first_name} {ticket.last_name}</p>
-//         <p>Email: {ticket.email}</p>
-//         <p>Mobile: {ticket.mobile}</p>
-//         <button onClick={() => window.print()}>Print Ticket</button>
-//         <button onClick={() => alert('Apple Wallet integration TBD')}>Add to Apple Wallet</button>
-//         <button onClick={() => alert('Google Wallet integration TBD')}>Add to Google Wallet</button>
-//       </div>
-//     );
-//   }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.formHeader}>Register for the Concert</h1>
-      <form onSubmit={() => handleSubmit} className={styles.form}>
+      <div className={styles.form}>
         <input
           type="text"
-          name="firstName"
           placeholder="First Name"
-          value={formData.firstName}
-          onChange={handleChange}
+          name="firstName"
+          value={userRegistration.firstName}
+          onChange={handleInputChange}
           required
           className={styles.input}
         />
         <input
           type="text"
-          name="lastName"
           placeholder="Last Name"
-          value={formData.lastName}
-          onChange={handleChange}
+          name="lastName"
+          value={userRegistration.lastName}
+          onChange={handleInputChange}
           required
           className={styles.input}
         />
         <input
           type="email"
-          name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          name="email"
+          value={userRegistration.email}
+          onChange={handleInputChange}
           required
           className={styles.input}
         />
+        {emailError && <div className={styles.error}>{emailError}</div>}
         <input
           type="tel"
-          name="mobile"
           placeholder="Mobile Number"
-          value={formData.mobile}
-          onChange={handleChange}
+          name="mobile"
+          value={userRegistration.mobile}
+          onChange={handleInputChange}
           required
           className={styles.input}
         />
-        <button type="submit" disabled={loading} className={styles.button}>
+         {mobileError && <div className={styles.error}>{mobileError}</div>}
+          <select
+          name="religion"
+          value={userRegistration.religion}
+          onChange={handleInputChange}
+          className={styles.select}
+          required
+        >
+        <option value="" disabled>Religion</option>
+        <option value="LDS">LDS</option>
+        <option value="other">Other</option>
+      </select>
+
+      <select
+        name="age"
+        value={userRegistration.age}
+        onChange={handleInputChange}
+        className={styles.select}
+        required
+      >
+        <option value="" disabled>Age</option>
+        <option value="14-18">14-18</option>
+        <option value="adult">Adult</option>
+      </select>
+        <button onClick={handleSubmit} disabled={loading} className={styles.button}>
           {loading ? 'Registering...' : 'Register'}
         </button>
         {error && <p className={styles.error}>{error}</p>}
-      </form>
+      </div>
     </div>
   );
 }
+
