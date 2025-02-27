@@ -1,63 +1,28 @@
-import { v4 as uuidv4 } from 'uuid';
 
 /*-------------------------------------
 *             POST REQUEST
 --------------------------------------*/
 export async function POST(req) {
-  const { firstName, lastName, email, mobile } = await req.json(); // Parse the incoming JSON body
-
-  // Validate input
-  if (!firstName || !lastName || !email || !mobile) {
-    return new Response(
-      JSON.stringify({ error: 'All fields are required' }),
-      { status: 400, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
+  const { firstName, lastName, email, mobile, age, event, religion } = await req.json();
 
   try {
-    const db = req.env.DB; // D1 binding from Cloudflare Workers
+      if (!firstName || !lastName || !email || !mobile || !age) {
+        return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
+      }
 
-    // Check current registration count
-    const countQuery = await db.prepare('SELECT COUNT(*) as count FROM registrations').first();
-    const count = countQuery.count;
-    if (count >= 5000) {
-      return new Response(
-        JSON.stringify({ error: 'Registration is full (5000 limit reached)' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+      const sql = `
+        INSERT INTO registrations (first_name, last_name, email, mobile, age, event, religion, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      `;
+      await process.env.DB.prepare(sql).bind(firstName, lastName, email, mobile, age, event, religion).run();
 
-    // Generate unique ticket number
-    const ticketNumber = `TICKET-${uuidv4().slice(0, 8).toUpperCase()}`;
-
-    // Insert registration
-    await db
-      .prepare(
-        'INSERT INTO registrations (first_name, last_name, email, mobile, ticket_number) VALUES (?, ?, ?, ?, ?)'
-      )
-      .bind(firstName, lastName, email, mobile, ticketNumber)
-      .run();
-
-    // Fetch the newly created ticket
-    const ticket = await db
-      .prepare('SELECT * FROM registrations WHERE ticket_number = ?')
-      .bind(ticketNumber)
-      .first();
-
-    return new Response(
-      JSON.stringify({ ticket }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+      return new Response(JSON.stringify({ message: "Registration successful" }), { status: 201 });
   } catch (error) {
-    console.error(error);
-    if (error.message.includes('UNIQUE constraint')) {
-      return new Response(
-        JSON.stringify({ error: 'Email or mobile number already registered' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
     return new Response(
-      JSON.stringify({ error: 'Something went wrong' }),
+      JSON.stringify({
+          error: 'Something went wrong.',
+          details: error?.toString(),
+      }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
