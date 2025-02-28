@@ -13,7 +13,7 @@ export default function Home() {
     <VideoPlayer />
 
       <div className="">
-        <div className="text-center text-5xl font-semibold"><em className="mb-3 text-8xl font-semibold">Strive To Be</em><br /> is coming to ARIZONA in March 2025</div>
+        <div className="text-center text-4xl lg:text-6xl font-semibold"><em className="mb-3 text-6xl lg:text-8xl font-semibold">Strive To Be</em><br /> is coming to ARIZONA in March 2025</div>
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left">
