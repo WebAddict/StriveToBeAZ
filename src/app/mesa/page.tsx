@@ -13,6 +13,15 @@ export default function Page() {
       <div className="text-center"><em className="mb-3 text-2xl font-semibold">Strive To Be</em><br /> is coming to MESA ARIZONA</div>
     </div>
     <Register event='mesa' />
+    <div className="mb-10">
+      <iframe
+        className="responsive-iframe"
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA_UGBkHuf-iNbaNfDo3NXCtsSimY2vhvA&q=Mesa+Amphitheatre,North+Center+Street,Mesa+AZ">
+      </iframe>
+    </div>
     </main>
   );
 }

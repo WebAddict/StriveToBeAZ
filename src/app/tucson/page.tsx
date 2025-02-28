@@ -13,6 +13,15 @@ export default function Page() {
       <div className="text-center"><em className="mb-3 text-2xl font-semibold">Strive To Be</em><br /> is coming to TUCSON ARIZONA</div>
     </div>
     <Register event='tucson' />
+    <div className='mb-10'>
+      <iframe
+        className='responsive-iframe'
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA_UGBkHuf-iNbaNfDo3NXCtsSimY2vhvA&q=10800+E+Valencia+Rd,Tuscson+AZ+85747">
+      </iframe>
+    </div>
     </main>
   );
 }

@@ -11,6 +11,7 @@ export interface RegisterData {
     mobile: string;
     religion: string;
     age: string;
+    stake: string;
     event: string;
 }
 

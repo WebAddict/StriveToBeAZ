@@ -7,15 +7,15 @@ const DB = process.env.DATABASE_ID;
 --------------------------------------*/
 export async function POST(req) {
   try {
-    const { firstName, lastName, email, mobile, age, event, religion } = await req.json();
+    const { firstName, lastName, email, mobile, age, event, religion, stake } = await req.json();
 
     if (!firstName || !lastName || !email || !age || !religion) {
       return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
     }
 
     const sql = `
-      INSERT INTO registrations (first_name, last_name, email, mobile, age, event, religion, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO registrations (first_name, last_name, email, mobile, age, event, religion, stake, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `;
 
     const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
@@ -24,7 +24,7 @@ export async function POST(req) {
         "Authorization": `Bearer ${API_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ sql, params: [firstName, lastName, email, mobile, age, event, religion] }),
+      body: JSON.stringify({ sql, params: [firstName, lastName, email, mobile, age, event, religion, stake] }),
     });
 
     const data = await response.json();

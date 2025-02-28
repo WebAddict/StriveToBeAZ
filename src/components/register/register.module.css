@@ -39,22 +39,6 @@
     color: red;
   }
   
-  .ticketContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .ticketContainer button {
-    margin: 10px;
-    padding: 10px;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
   .formHeader {
     margin-bottom: 10px;
   }

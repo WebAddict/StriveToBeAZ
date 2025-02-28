@@ -13,6 +13,7 @@ export default function Register({ event }: { event: string }) {
     mobile: '',
     religion: '',
     age: '',
+    stake: '',
     event: event,
   };
   const [userRegistration, setUserRegistration] = useState<RegisterData>(INITIAL_USER_REGISTRATION);
@@ -36,7 +37,13 @@ export default function Register({ event }: { event: string }) {
     setEmailError('');
     setMobileError('');
 
-    if (!userRegistration.email || !userRegistration.firstName || !userRegistration.lastName || !userRegistration.age || !userRegistration.religion) {
+    if (!userRegistration.email) {
+      setEmailError("An email is required to register. If you don't have one, you can use a parent or guardian's email address");
+      setLoading(false);
+      return;
+    }
+
+    if (!userRegistration.firstName || !userRegistration.lastName || !userRegistration.age || !userRegistration.religion) {
       setError("Missing required fields");
       return;
     }
@@ -156,6 +163,18 @@ export default function Register({ event }: { event: string }) {
         <option value="other">Other</option>
       </select>
 
+      {userRegistration.religion === "LDS" && 
+        <input
+            type="stake"
+            placeholder="Enter your stake"
+            name="stake"
+            value={userRegistration.stake}
+            onChange={handleInputChange}
+            required
+            className={styles.input}
+          />
+        }
+
       <select
         name="age"
         value={userRegistration.age}
@@ -164,6 +183,8 @@ export default function Register({ event }: { event: string }) {
         required
       >
         <option value="" disabled>Age*</option>
+        {event === "tucson" && <option value="12">12</option>}
+        {event === "tucson" && <option value="13">13</option>}
         <option value="14">14</option>
         <option value="14">15</option>
         <option value="14">16</option>
