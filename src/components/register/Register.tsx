@@ -67,12 +67,12 @@ export default function Register({ event }: { event: string }) {
       });
       const data = await res.json();
       if (res.ok) {
-        toast.success('Registration successful!', {
+        toast.success('Registration successful! You will get your Entry Pass by email around 3/15', {
           position: 'top-center',
           style: {
             backgroundColor: '#28a745',
             color: '#fff',
-            fontSize: '18px',
+            fontSize: '25px',
             padding: '15px 25px', 
             maxWidth: '400px',
             minWidth: '250px',
@@ -82,12 +82,12 @@ export default function Register({ event }: { event: string }) {
       } else {
         if (data && typeof data === 'object' && 'error' in data) {
           const errorMessage = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
-          toast.error('Registration failed!', {
+          toast.error('Registration failed! Please try again', {
             position: 'top-center',
             style: {
               backgroundColor: '#dc3545',
               color: '#fff',
-              fontSize: '18px',
+              fontSize: '25px',
               padding: '15px 25px',
               maxWidth: '400px',
               minWidth: '250px',
@@ -161,16 +161,17 @@ export default function Register({ event }: { event: string }) {
         <option value="" disabled>Religion*</option>
         <option value="LDS">Church of Jesus Christ of Latter Day Saints</option>
         <option value="Other Christian">Other Christian</option>
-        <option value="Jewish">Jewish</option>
+        <option value="Judaism">Judaism</option>
         <option value="Muslim">Muslim</option>
-        <option value="Jewish">Hindu</option>
-        <option value="other">Other</option>
+        <option value="Hindu">Hindu</option>
+        <option value="Atheist / Agnostic">Atheist / Agnostic</option>
+        <option value="Other">Other</option>
       </select>
 
       {userRegistration.religion === "LDS" && 
         <input
             type="stake"
-            placeholder="Enter your stake"
+            placeholder="Enter your Stake Name"
             name="stake"
             value={userRegistration.stake}
             onChange={handleInputChange}
