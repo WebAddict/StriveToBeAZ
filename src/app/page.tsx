@@ -1,9 +1,12 @@
+"use client"
+
 import Navbar from "@/components/navbar/Navbar";
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 import Image from "next/image";
 import Link from 'next/link';
 
 export default function Home() {
+  const videoID = "https://customer-6dmg386fdvg78j60.cloudflarestream.com/47c231680d57feba393dd3c7c71b38e0/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-6dmg386fdvg78j60.cloudflarestream.com%2F47c231680d57feba393dd3c7c71b38e0%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600";
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
     <Navbar />
@@ -45,7 +48,6 @@ export default function Home() {
           Learn about the Concert in Tucson on March 29th
           </p>
         </a>
-
       </div>
     </main>
   );

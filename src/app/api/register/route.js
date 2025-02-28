@@ -9,7 +9,7 @@ export async function POST(req) {
   try {
     const { firstName, lastName, email, mobile, age, event, religion } = await req.json();
 
-    if (!firstName || !lastName || !email || !mobile || !age) {
+    if (!firstName || !lastName || !email || !age || !religion) {
       return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
     }
 
