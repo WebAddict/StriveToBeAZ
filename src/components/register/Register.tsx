@@ -159,7 +159,11 @@ export default function Register({ event }: { event: string }) {
           required
         >
         <option value="" disabled>Religion*</option>
-        <option value="LDS">LDS</option>
+        <option value="LDS">Church of Jesus Christ of Latter Day Saints</option>
+        <option value="Other Christian">Other Christian</option>
+        <option value="Jewish">Jewish</option>
+        <option value="Muslim">Muslim</option>
+        <option value="Jewish">Hindu</option>
         <option value="other">Other</option>
       </select>
 

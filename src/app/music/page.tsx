@@ -18,7 +18,7 @@ export default function Page() {
             Strive to Be is the youth channel of The Church of Jesus Christ of Latter-day Saints! This channel is devoted to strengthening youth globally through its Christ-centered music and messages.
           </p>
           <p className="text-center max-w-md text-2xl text-white-300 drop-shadow-2xl mt-8 px-4">
-            The following Video is <em>Strive To Be's</em> Utah concert 2024, and thier ARIZONA concert 2025 will be very similar!
+            The following Video is <em>Strive To Be&#39;s</em> Utah concert 2024, and thier ARIZONA concert 2025 will be very similar!
           </p>
           <YTVideo />
           <div className="mt-12 w-full max-w-sm flex flex-col gap-3 px-3">

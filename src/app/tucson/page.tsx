@@ -12,8 +12,11 @@ export default function Page() {
     <div className="mt-12">
       <div className="text-center text-4xl font-semibold"><em className="mb-3 text-6xl font-semibold">Strive To Be</em><br /> is coming to TUCSON ARIZONA on March 29, 2025</div>
     </div>
-    <div className="my-12">
+    <div className="mt-12">
       <div className="text-center text-3xl font-semibold">Who: Youth 12-18 years old<br />Where: Mica Mountain High School<br />When: 3/29 from 6pm to 8pm<br />Wear: FSY Standards</div>
+    </div>
+    <div className="my-12">
+      <div className="text-center text-3xl font-semibold">More details coming this weekend 3/2</div>
     </div>
     <Register event='tucson' />
     <div className='mb-10'>

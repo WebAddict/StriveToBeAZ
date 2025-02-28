@@ -61,7 +61,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-50">
-          Check out Strive to Be's music and performances
+          Check out Strive to Be&#39;s music and performances
           </p>
         </a>
       </div>
