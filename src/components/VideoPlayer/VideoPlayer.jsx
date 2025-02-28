@@ -14,7 +14,7 @@ const VideoPlayer = () => {
       height: "100%",
       zIndex: -1,
       border: "none",
-      filter: "blur(5px) opacity(0.2)",
+      filter: "opacity(0.5)",
     }}
   />
   );
