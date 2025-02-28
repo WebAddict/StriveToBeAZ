@@ -191,11 +191,11 @@ export default function Register({ event }: { event: string }) {
         {event === "tucson" && <option value="12">12</option>}
         {event === "tucson" && <option value="13">13</option>}
         <option value="14">14</option>
-        <option value="14">15</option>
-        <option value="14">16</option>
-        <option value="14">17</option>
-        <option value="14">18</option>
-        <option value="adult">Adult</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="Adult">Adult</option>
       </select>
         <button onClick={handleSubmit} disabled={loading} className={styles.button}>
           {loading ? 'Registering...' : 'Register'}
