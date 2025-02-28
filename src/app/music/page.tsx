@@ -1,4 +1,5 @@
 import Navbar from '@/components/navbar/Navbar';
+import YTVideo from '@/components/YTVideo/YTVideo';
 
 export default function Page() {
     const BUTTON_STYLE = "flex items-center p-2 rounded-lg font-semibold hover:scale-105 transition-all duration-200 cursor-pointer bg-transparent border border-gray-200 text-gray-200";
@@ -9,6 +10,10 @@ export default function Page() {
       <p className="text-center max-w-md text-gray-300 mt-8 px-4">
         Strive to Be is the youth channel of The Church of Jesus Christ of Latter-day Saints! This channel is devoted to strengthening youth globally through its Christ-centered music and messages.
       </p>
+      <p className="text-center max-w-md text-gray-300 mt-8 px-4">
+        The following Video is their 2024 Concert in Utah, and ours will be similar
+      </p>
+      <YTVideo />
       <div className="mt-12 w-full max-w-sm flex flex-col gap-3 px-3">
         <a href="https://open.spotify.com/artist/66YzHdK0FWCQSKMlXf3Rbj" target="_blank" className={BUTTON_STYLE}>
           <img src="/spotify.svg" alt="Spotify" className="w-12 h-12 mr-3" /> Spotify
