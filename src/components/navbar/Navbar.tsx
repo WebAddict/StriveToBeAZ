@@ -42,18 +42,18 @@ const Navbar = () => {
                 <div className={`w-full ${isMenuOpen ? 'block' : 'hidden'} md:block md:w-auto`} id="navbar-dropdown">
                     <ul className={`flex flex-col font-medium p-4 md:p-0 mt-0 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md: items-center md:mt-0 md:border-0 dark:bg-transparent md:dark:bg-tramsparent dark:border-gray-700`}>
                         <li>
-                            <a href="/mesa" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Mesa</div></a>
+                            <a href="/mesa" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Mesa</div></a>
                         </li>
                         <li>
-                            <a href="/tucson" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Tucson</div></a>
+                            <a href="/tucson" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Tucson</div></a>
                         </li>
                         <li>
-                            <a href="/music" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMusic className="" /> Music</div></a>
+                            <a href="/music" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMusic className="" /> Music</div></a>
                         </li>
                         <li className="hidden md:block relative">
                             <button 
                                 onClick={toggleDropdown} 
-                                className="text-gray-900 hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
+                                className="text-gray-900 text-xl hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
                                 <div className="flex justify-between"><IconAt className="" />StriveToBeAZ</div>
                             </button>
                             {isDropdownOpen && (

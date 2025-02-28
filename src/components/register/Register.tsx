@@ -111,7 +111,7 @@ export default function Register({ event }: { event: string }) {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.formHeader}>Register for the Concert</h1>
+      <h1 className={styles.formHeader}>Register to get your FREE PASS for the {event} Concert</h1>
       <div className={styles.form}>
         <input
           type="text"
