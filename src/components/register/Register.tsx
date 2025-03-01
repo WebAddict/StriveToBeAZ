@@ -45,6 +45,7 @@ export default function Register({ event }: { event: string }) {
 
     if (!userRegistration.firstName || !userRegistration.lastName || !userRegistration.age || !userRegistration.religion) {
       setError("Missing required fields");
+      setLoading(false);
       return;
     }
 
@@ -109,9 +110,14 @@ export default function Register({ event }: { event: string }) {
     }      
   };
 
+  const capitalizeEvent = (event : string) => {
+    if (event == "mesa") return "Mesa";
+    if (event == "tucson") return "Tucson";
+  }
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.formHeader}>Register to get your FREE PASS for the {event} Concert</h1>
+      <h1 className={styles.formHeader}>Register to get your FREE PASS for the {capitalizeEvent(event)} Concert</h1>
       <div className={styles.form}>
         <input
           type="text"

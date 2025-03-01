@@ -15,7 +15,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 w-full">
+        <nav className="border-gray-200  bg-gray-900  border-gray-700 w-full">
             <div className="flex flex-wrap items-center justify-between mx-auto px-5">
                 <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img 
@@ -23,14 +23,14 @@ const Navbar = () => {
                         className="h-24 sm:h-28 md:h-36" 
                         alt="Strive to Be AZ" 
                     />
-                    <span className="self-center text-xl sm:text-2xl md:text-3xl font-semibold whitespace-nowrap dark:text-white">
+                    <span className="self-center text-xl sm:text-2xl md:text-3xl font-semibold whitespace-nowrap  text-white">
                         Strive To Be
                     </span>
                 </a>
                 <button 
                     onClick={toggleMenu} 
                     type="button" 
-                    className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" 
+                    className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  text-gray-400  hover:bg-gray-700  focus:ring-gray-600" 
                     aria-controls="navbar-dropdown" 
                     aria-expanded={isMenuOpen ? 'true' : 'false'}
                 >
@@ -40,63 +40,63 @@ const Navbar = () => {
                     </svg>
                 </button>
                 <div className={`w-full ${isMenuOpen ? 'block' : 'hidden'} md:block md:w-auto`} id="navbar-dropdown">
-                    <ul className={`flex flex-col font-medium p-4 md:p-0 mt-0 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md: items-center md:mt-0 md:border-0 dark:bg-transparent md:dark:bg-tramsparent dark:border-gray-700`}>
+                    <ul className={`flex flex-col font-medium p-4 md:p-0 mt-0 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md: items-center md:mt-0 md:border-0  bg-transparent md: bg-tramsparent  border-gray-700`}>
                         <li>
-                            <a href="/mesa" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Mesa</div></a>
+                            <a href="/mesa" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  text-white md: hover:text-blue-500  hover:bg-gray-700  hover:text-white md: hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="mr-1" /> Mesa</div></a>
                         </li>
                         <li>
-                            <a href="/tucson" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="" /> Tucson</div></a>
+                            <a href="/tucson" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  text-white md: hover:text-blue-500  hover:bg-gray-700  hover:text-white md: hover:bg-transparent"><div className="flex justify-between"><IconMapPinFilled className="mr-1" /> Tucson</div></a>
                         </li>
                         <li>
-                            <a href="/music" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"><div className="flex justify-between"><IconMusic className="" /> Music</div></a>
+                            <a href="/music" className="block py-2 px-3 text-xl text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  text-white md: hover:text-blue-500  hover:bg-gray-700  hover:text-white md: hover:bg-transparent"><div className="flex justify-between"><IconMusic className="mr-1" /> Music</div></a>
                         </li>
                         <li className="hidden md:block relative">
                             <button 
                                 onClick={toggleDropdown} 
-                                className="text-gray-900 text-xl hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
-                                <div className="flex justify-between"><IconAt className="" />StriveToBeAZ</div>
+                                className="text-gray-900 text-xl hover:text-blue-700  text-white  hover:text-blue-500">
+                                <div className="flex justify-between"><IconAt className="mr-1" />StriveToBeAZ</div>
                             </button>
                             {isDropdownOpen && (
-                                <ul className="absolute left-[-200px] bg-gray-800 rounded-lg mt-2 py-2 text-base text-gray-700 dark:text-gray-200 w-56" aria-labelledby="dropdownDefaultButton">
+                                <ul className=" text-white absolute left-[-100px] bg-gray-800 rounded-lg mt-2 py-2 text-base text-gray-700  text-gray-200 w-56" aria-labelledby="dropdownDefaultButton">
                                     {/* Facebook */}
                                     <li className="w-full">
-                                    <a href="https://www.facebook.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandFacebook className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://www.facebook.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandFacebook className="w-7 h-7 ml-2 mr-4 text-white" />
                                         <span>Facebook</span>
                                     </a>
                                     </li>
                                     {/* Instagram */}
                                     <li className="w-full">
-                                    <a href="https://www.instagram.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandInstagram className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://www.instagram.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandInstagram className="w-7 h-7 ml-2 mr-4 text-white" />
                                         <span>Instagram</span>
                                     </a>
                                     </li>
                                     {/* YouTube */}
                                     <li className="w-full">
-                                    <a href="https://www.youtube.com/@strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandYoutube className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://www.youtube.com/@strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandYoutube className="w-7 h-7 ml-2 mr-4 text-gray-700  text-white" />
                                         <span>YouTube</span>
                                     </a>
                                     </li>
                                     {/* TikTok */}
                                     <li className="w-full">
-                                    <a href="https://www.tiktok.com/@strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandTiktok className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://www.tiktok.com/@strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandTiktok className="w-7 h-7 ml-2 mr-4 text-gray-700  text-white" />
                                         <span>TikTok</span>
                                     </a>
                                     </li>
                                     {/* X */}
                                     <li className="w-full">
-                                    <a href="https://x.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandX className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://x.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandX className="w-7 h-7 ml-2 mr-4 text-gray-700  text-white" />
                                         <span>X</span>
                                     </a>
                                     </li>
                                     {/* Snapchat */}
                                     <li className="w-full">
-                                    <a href="https://www.snapchat.com/add/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <IconBrandSnapchat className="w-7 h-7 ml-2 mr-4 text-gray-700 dark:text-gray-200" />
+                                    <a href="https://www.snapchat.com/add/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">
+                                        <IconBrandSnapchat className="w-7 h-7 ml-2 mr-4 text-gray-700 text-white" />
                                         <span>Snapchat</span>
                                     </a>
                                     </li>
@@ -104,24 +104,24 @@ const Navbar = () => {
                             )}
                         </li>
                          {/* Social Media Icons for Mobile */}
-                        <div className="md:hidden flex justify-center items-center w-full pb-3 space-x-4 sm:space-x-6 lg:space-x-8">
+                        <div className="text-white md:hidden flex justify-center items-center w-full pb-3 space-x-4 sm:space-x-6 lg:space-x-8">
                             <a href="https://www.facebook.com/strivetobeaz" target="_blank">
-                                <IconBrandFacebook className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandFacebook className="w-7 h-7" />
                             </a>
                             <a href="https://www.instagram.com/strivetobeaz" target="_blank">
-                                <IconBrandInstagram className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandInstagram className="w-7 h-7" />
                             </a>
                             <a href="https://www.youtube.com/@strivetobeaz" target="_blank">
-                                <IconBrandYoutube className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandYoutube className="w-7 h-7" />
                             </a>
                             <a href="https://www.tiktok.com/@strivetobeaz" target="_blank">
-                                <IconBrandTiktok className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandTiktok className="w-7 h-7" />
                             </a>
                             <a href="https://x.com/strivetobeaz" target="_blank">
-                                <IconBrandX className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandX className="w-7 h-7" />
                             </a>
                             <a href="https://www.snapchat.com/add/strivetobeaz" target="_blank">
-                                <IconBrandSnapchat className="w-7 h-7 text-gray-700 dark:text-gray-200" />
+                                <IconBrandSnapchat className="w-7 h-7" />
                             </a>
                         </div>
                     </ul>

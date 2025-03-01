@@ -13,13 +13,19 @@ export default function Home() {
     <VideoPlayer />
 
       <div className="">
-        <div className="text-center text-4xl lg:text-6xl font-semibold"><em className="mb-3 text-6xl lg:text-8xl font-semibold">Strive To Be</em><br /> is coming to ARIZONA in March 2025</div>
+        <div className="text-center text-white text-4xl lg:text-6xl font-semibold"><em className="mb-3 text-6xl lg:text-8xl font-semibold">Strive To Be</em><br /> is coming to ARIZONA in March 2025</div>
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left">
+      <div
+        className="mb-32 text-white grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left"
+        style={{
+          background: 'radial-gradient(circle, rgba(55, 65, 81, 0.3) 0%, rgba(55, 65, 81, 0) 100%)',
+          transition: 'background 0.3s ease',
+        }}
+      >
         <a
           href="/mesa"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-800 hover: border-neutral-700"
           rel="noopener noreferrer"
         >
           <h2 className="mb-3 text-5xl font-semibold">
@@ -28,14 +34,14 @@ export default function Home() {
               -&gt;
             </span>
           </h2>
-          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-50">
+          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-90">
             Learn about the Concert in Mesa on March 28th
           </p>
         </a>
 
         <a
           href="/tucson"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-800 hover: border-neutral-700"
           rel="noopener noreferrer"
         >
           <h2 className="mb-3 text-5xl font-semibold">
@@ -44,14 +50,14 @@ export default function Home() {
               -&gt;
             </span>
           </h2>
-          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-50">
+          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-90">
           Learn about the Concert in Tucson on March 29th
           </p>
         </a>
 
         <a
           href="/music"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-800 hover: border-neutral-700"
           rel="noopener noreferrer"
         >
           <h2 className="mb-3 text-5xl font-semibold">
@@ -60,7 +66,7 @@ export default function Home() {
               -&gt;
             </span>
           </h2>
-          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-50">
+          <p className="m-0 text-3xl max-w-[30ch] text-sm opacity-90">
           Check out Strive to Be&#39;s music and performances
           </p>
         </a>

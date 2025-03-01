@@ -12,7 +12,7 @@ export default function Page() {
           backgroundColor: "rgba(0,0,0,0.2)",
           backgroundBlendMode: "darken"
         }}>
-        <div className="flex flex-col items-center">
+        <div className="text-white flex flex-col items-center">
           <h1 className="text-5xl font-bold mt-6">Strive to Be</h1>
           <p className="text-center max-w-md text-2xl text-white-300 drop-shadow-2xl mt-8 px-4">
             Strive to Be is the youth channel of The Church of Jesus Christ of Latter-day Saints! This channel is devoted to strengthening youth globally through its Christ-centered music and messages.
@@ -21,7 +21,7 @@ export default function Page() {
             The following Video is <em>Strive To Be&#39;s</em> Utah concert 2024, and thier ARIZONA concert 2025 will be very similar!
           </p>
           <YTVideo />
-          <div className="mt-12 w-full max-w-sm flex flex-col gap-3 px-3">
+          <div className="mt-12 w-full max-w-sm flex flex-col gap-3 px-3 mb-10">
             <a href="https://open.spotify.com/artist/66YzHdK0FWCQSKMlXf3Rbj" target="_blank" className={BUTTON_STYLE}>
               <img src="/spotify.svg" alt="Spotify" className="w-12 h-12 mr-3" /> Spotify
             </a>

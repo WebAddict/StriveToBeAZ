@@ -16,9 +16,10 @@
   .input {
     padding: 10px;
     font-size: 16px;
-    background-color: transparent;
+    background-color: black;
     border: 1px solid #eeeeee;
     border-radius: 10px;
+    color: white;
 
   }
   
@@ -38,7 +39,7 @@
   .error {
     color: red;
   }
-  
+
   .formHeader {
     margin-bottom: 10px;
   }
@@ -49,13 +50,14 @@
     background-color: black;
     border: 1px solid #eeeeee;
     border-radius: 10px;
+    color: white;
   }
   
   /* Style for the options inside the select */
   .select option {
     padding: 10px;
     font-size: 16px;
-    background-color: transparent;
+    background-color: black;
     border: none;
     border-radius: 10px;
   }
