@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styles from './register.module.css';
 import { toast } from 'react-toastify';
 import { RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
+import Turnstile,{ useTurnstile } from 'react-turnstile';
 
 export default function Register({ event }: { event: string }) {
   const INITIAL_USER_REGISTRATION : RegisterData = {
@@ -21,6 +22,33 @@ export default function Register({ event }: { event: string }) {
   const [mobileError, setMobileError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [invokeCaptcha, setInvokeCaptcha] = useState(false);
+
+  const turnstile = useTurnstile();
+
+  const handleVerification = async (token: string) => {
+    setInvokeCaptcha(true);
+    try {
+      const res = await fetch('/api/turnstile', {
+        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        body: JSON.stringify({ token }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        console.log("Turnstile verification success:", data);
+        submitRegistration();
+      } else {
+        console.log("Turnstile verification failed:", data);
+        turnstile.reset(); 
+      }
+    } catch (error) {
+      console.error("Error during verification or registration:", error);
+      turnstile.reset();
+    }
+  };
+  
 
   // Function to handle form field changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -30,6 +58,59 @@ export default function Register({ event }: { event: string }) {
       [name]: value
     }));
   };
+
+  const submitRegistration = async() => {
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userRegistration),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success('Registration successful! You will get your Entry Pass by email around 3/15', {
+          position: 'top-center',
+          style: {
+            backgroundColor: '#28a745',
+            color: '#fff',
+            fontSize: '25px',
+            padding: '15px 25px', 
+            maxWidth: '400px',
+            minWidth: '250px',
+          },
+        });
+        setUserRegistration(INITIAL_USER_REGISTRATION);
+        turnstile.reset();
+        setInvokeCaptcha(false);
+      } else {
+        if (data && typeof data === 'object' && 'error' in data) {
+          const errorMessage = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
+          toast.error('Registration failed! Please try again', {
+            position: 'top-center',
+            style: {
+              backgroundColor: '#dc3545',
+              color: '#fff',
+              fontSize: '25px',
+              padding: '15px 25px',
+              maxWidth: '400px',
+              minWidth: '250px',
+            },
+          });
+          setError(data.error);
+        } else {
+          throw new Error('Registration failed with an unknown error');
+        }
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setLoading(false);
+    }      
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -60,54 +141,8 @@ export default function Register({ event }: { event: string }) {
       setLoading(false);
       return;
     }
-    try {
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userRegistration),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Registration successful! You will get your Entry Pass by email around 3/15', {
-          position: 'top-center',
-          style: {
-            backgroundColor: '#28a745',
-            color: '#fff',
-            fontSize: '25px',
-            padding: '15px 25px', 
-            maxWidth: '400px',
-            minWidth: '250px',
-          },
-        });
-        setUserRegistration(INITIAL_USER_REGISTRATION);
-      } else {
-        if (data && typeof data === 'object' && 'error' in data) {
-          const errorMessage = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
-          toast.error('Registration failed! Please try again', {
-            position: 'top-center',
-            style: {
-              backgroundColor: '#dc3545',
-              color: '#fff',
-              fontSize: '25px',
-              padding: '15px 25px',
-              maxWidth: '400px',
-              minWidth: '250px',
-            },
-          });
-          setError(data.error);
-        } else {
-          throw new Error('Registration failed with an unknown error');
-        }
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
-      }
-    } finally {
-      setLoading(false);
-    }      
+
+    setInvokeCaptcha(true);
   };
 
   const capitalizeEvent = (event : string) => {
@@ -208,6 +243,14 @@ export default function Register({ event }: { event: string }) {
         </button>
         {error && <p className={styles.error}>{error}</p>}
       </div>
+      {invokeCaptcha &&  
+        <div className="mt-10">
+          <Turnstile
+            sitekey="0x4AAAAAAA_eIsBMQxAtxnSx"
+            onVerify={handleVerification}
+          />
+        </div>
+      }
     </div>
   );
 }
