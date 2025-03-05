@@ -3,6 +3,9 @@
 */
 
 import { D1Database } from "@cloudflare/workers-types";
+const API_TOKEN = process.env.D1_API_TOKEN;
+const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
+const DB = process.env.DATABASE_ID;
 
 export interface RegisterData {
     firstName: string;
@@ -13,6 +16,8 @@ export interface RegisterData {
     age: string;
     stake: string;
     event: string;
+    childName?: string;
+    uniqueId?: string;
 }
 
 export function validateEmailInput(email: string) {
@@ -60,6 +65,93 @@ export function addRegistration(
         throw new Error('Database insertion failed');
     }
 }
+
+function generateRandomString(length: number): string {
+    const chars = "0123456789abcdefghjkmnpqrtuvwxyABCDEFGHJKMNPQRTUVWXY";
+    let result = "";
+    const charCount = chars.length;
+  
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * charCount));
+    }
+  
+    return result;
+  }
+
+export async function makeUniqueId(length = 8) {
+    // Length 8 = 53,459,728,531,456 possible combinations (52^8)
+    let uniqueId = '';
+    let valid = false;
+  
+    // check if this uniqueId already exists
+    while (!valid) {
+        uniqueId = generateRandomString(length);
+        const resp = await existsUniqueId(uniqueId);
+        if (!resp) {
+            valid = true;
+        }
+    }
+  
+    return uniqueId;
+  }
+
+/*-----------------------------------------------
+*           DATABASE FUNCTIONS
+------------------------------------------------*/
+
+  export async function getRegistrations() {
+    try {
+        const sql = `SELECT * FROM REGISTRATIONS WHERE first_name != 'Delete' AND last_name != 'Me'`;
+        const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({sql})
+        });
+    
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error('Could not fetch registrations');
+        }
+    
+        return data.result;
+      } catch (error) {
+        throw new Error(JSON.stringify(error));
+      }
+  }
+
+  export async function existsUniqueId(uniqueId: string) {
+    try {
+      const sql = `SELECT COUNT(*) as count FROM REGISTRATIONS WHERE uniqueid = ?`;
+  
+      const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${API_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sql,
+          params: [uniqueId]
+        })
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(JSON.stringify("Error getting registration"));
+      }
+
+      if (data.result && data.result[0].results && data.result[0].results[0].count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      throw new Error(JSON.stringify(error));
+    }
+  }
 
 
 

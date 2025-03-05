@@ -16,11 +16,13 @@ export default function Register({ event }: { event: string }) {
     age: '',
     stake: '',
     event: event,
+    childName: '',
   };
   const [userRegistration, setUserRegistration] = useState<RegisterData>(INITIAL_USER_REGISTRATION);
   const [error, setError] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [ageError, setAgeError] = useState('');
   const [loading, setLoading] = useState(false);
   const [invokeCaptcha, setInvokeCaptcha] = useState(false);
 
@@ -117,6 +119,7 @@ export default function Register({ event }: { event: string }) {
     setError('');
     setEmailError('');
     setMobileError('');
+    setAgeError('');
 
     if (!userRegistration.email) {
       setEmailError("An email is required to register. If you don't have one, you can use a parent or guardian's email address");
@@ -138,6 +141,12 @@ export default function Register({ event }: { event: string }) {
 
     if (userRegistration.mobile.length > 0 && !validatePhoneInput(userRegistration.mobile)) {
       setMobileError('Invalid phone');
+      setLoading(false);
+      return;
+    }
+
+    if (userRegistration.age === "Adult" && !userRegistration.childName) {
+      setAgeError('Adults must list name of youth they are accompanying');
       setLoading(false);
       return;
     }
@@ -236,8 +245,22 @@ export default function Register({ event }: { event: string }) {
         <option value="16">16</option>
         <option value="17">17</option>
         <option value="18">18</option>
-        <option value="Adult">Adult</option>
+        <option value="Adult">Adult (accompanying youth with special needs)</option>
       </select>
+      {userRegistration.age === "Adult" && 
+        <>
+          <input
+          type="childName"
+          placeholder="Enter name of youth you're accompanying*"
+          name="childName"
+          value={userRegistration.childName}
+          onChange={handleInputChange}
+          required
+          className={styles.input}
+        />
+        {ageError && <div className={styles.error}>{ageError}</div>}
+        </>
+      }
         <button onClick={handleSubmit} disabled={loading} className={styles.button}>
           {loading ? 'Registering...' : 'Register'}
         </button>
