@@ -12,12 +12,7 @@ export default function Page() {
           backgroundColor: "rgba(0,0,0,0.2)",
           backgroundBlendMode: "darken"
         }}>
-        <div
-          className="text-white flex flex-col items-center mx-auto lg:w-2/5 md:w-3/5 bg-opacity-50"
-          style={{
-            background: 'linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8), transparent)',
-          }}
-        >
+        <div className="text-white flex flex-col items-center mx-auto lg:w-2/5 md:w-3/5 bg-opacity-50">
           <h1 className="text-5xl font-bold mt-6">Strive to Be</h1>
           <p className="text-center max-w-md text-2xl text-white-300 drop-shadow-2xl mt-8 px-4">
             Strive to Be is the youth channel of The Church of Jesus Christ of Latter-day Saints! This channel is devoted to strengthening youth globally through its Christ-centered music and messages.

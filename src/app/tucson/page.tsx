@@ -8,7 +8,7 @@ export default function Page() {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <Navbar />
       <VideoPlayer />
-      <div  style={{background: 'linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8), transparent)'}}>
+      <div>
         <div className="mt-12">
           <div className="text-white text-center text-4xl font-semibold"><em className="mb-3 text-6xl font-semibold">Strive To Be</em><br /> is coming to TUCSON ARIZONA on March 29, 2025</div>
         </div>
