@@ -53,7 +53,7 @@ export async function POST(req) {
 --------------------------------------*/
 export async function GET(request) {
   try {
-    const registrations = await makeUniqueId();
+    const registrations = await getRegistrations();
     return Response.json(registrations, { status: 200 });
   } catch (error) {
     return new Response(

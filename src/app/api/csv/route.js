@@ -19,7 +19,7 @@ export async function GET(request) {
     });
   }
   try {
-      const registrations = await getRegistrations();
+      const registrations = await getRegistrations('mesa');
     // Convert results to CSV (or JSON if preferred)
     const headers = Object.keys(registrations[0].results[0]).join(",");
     const rows = registrations[0].results.map(row => Object.values(row).join(",")).join("\n");

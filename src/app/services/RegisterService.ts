@@ -99,9 +99,12 @@ export async function makeUniqueId(length = 8) {
 *           DATABASE FUNCTIONS
 ------------------------------------------------*/
 
-  export async function getRegistrations() {
+  export async function getRegistrations(event=false) {
     try {
-        const sql = `SELECT * FROM REGISTRATIONS WHERE event='mesa' COLLATE NOCASE`;
+        let sql = "SELECT * FROM REGISTRATIONS";
+        if (event) {
+            sql += " WHERE event='" + event + "'";
+        }
         const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
           method: "POST",
           headers: {
