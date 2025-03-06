@@ -15,7 +15,7 @@ export interface RegisterData {
     age: string;
     stake: string;
     event: string;
-    childName?: string;
+    childName: string;
     uniqueId?: string;
 }
 

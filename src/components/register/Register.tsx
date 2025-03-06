@@ -56,16 +56,27 @@ export default function Register({ event }: { event: string }) {
     const { name, value } = e.target;
     setUserRegistration((prevState) => ({
       ...prevState,
-      [name]: value.trim(),
+      [name]: value, // Removed .trim() to allow spaces while typing
     }));
   };
 
   const submitRegistration = async () => {
+    // Optionally trim values here before sending to the backend if needed
+    const trimmedRegistration = {
+      ...userRegistration,
+      firstName: userRegistration.firstName.trim(),
+      lastName: userRegistration.lastName.trim(),
+      email: userRegistration.email.trim(),
+      mobile: userRegistration.mobile.trim(),
+      stake: userRegistration.stake.trim(),
+      childName: userRegistration.childName.trim(),
+    };
+
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userRegistration),
+        body: JSON.stringify(trimmedRegistration), // Use trimmed data for submission
       });
       const data = await res.json();
       if (res.ok) {
