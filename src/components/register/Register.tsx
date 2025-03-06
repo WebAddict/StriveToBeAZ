@@ -57,7 +57,7 @@ export default function Register({ event }: { event: string }) {
     const { name, value } = e.target;
     setUserRegistration((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value.trim()
     }));
   };
 
