@@ -101,7 +101,30 @@ export async function makeUniqueId(length = 8) {
 
   export async function getRegistrations() {
     try {
-        const sql = `SELECT * FROM REGISTRATIONS WHERE first_name != 'Delete' AND last_name != 'Me'`;
+        const sql = `SELECT * FROM REGISTRATIONS WHERE event='mesa' COLLATE NOCASE`;
+        const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({sql})
+        });
+    
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error('Could not fetch registrations');
+        }
+    
+        return data.result;
+      } catch (error) {
+        throw new Error(JSON.stringify(error));
+      }
+  }
+
+  export async function getRegistrationsCSV() {
+    try {
+        const sql = `SELECT * FROM REGISTRATIONS WHERE event='mesa' COLLATE NOCASE`;
         const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
           method: "POST",
           headers: {
