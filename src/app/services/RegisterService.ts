@@ -99,28 +99,36 @@ export async function makeUniqueId(length = 8) {
 *           DATABASE FUNCTIONS
 ------------------------------------------------*/
 
-  export async function getRegistrations() {
-    try {
-        const sql = `SELECT * FROM REGISTRATIONS WHERE event='mesa' COLLATE NOCASE`;
-        const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${API_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({sql})
-        });
-    
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error('Could not fetch registrations');
-        }
-    
-        return data.result;
-      } catch (error) {
-        throw new Error(JSON.stringify(error));
-      }
+export async function getRegistrations(whichEvent: string) {
+  // Define valid events
+  const validEvents = ['mesa', 'tucson'];
+
+  // Validate whichEvent
+  if (!whichEvent || !validEvents.includes(whichEvent.toLowerCase())) {
+    throw new Error("Invalid or missing event parameter. Must be 'mesa' or 'tucson'");
   }
+
+  try {
+    const sql = `SELECT * FROM REGISTRATIONS WHERE event='${whichEvent.toLowerCase()}' COLLATE NOCASE`;
+    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({sql})
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error('Could not fetch registrations');
+    }
+
+    return data.result;
+  } catch (error) {
+    throw new Error(JSON.stringify(error));
+  }
+}
 
   export async function getRegistrationsCSV() {
     try {
