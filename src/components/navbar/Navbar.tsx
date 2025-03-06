@@ -24,7 +24,7 @@ const Navbar = () => {
                         alt="Strive to Be AZ" 
                     />
                     <span className="self-center text-xl sm:text-2xl md:text-3xl font-semibold whitespace-nowrap  text-white">
-                        Strive To Be
+                        Strive To Be Arizona
                     </span>
                 </a>
                 <button 

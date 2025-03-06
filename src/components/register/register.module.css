@@ -1,63 +1,109 @@
+.wrapper {
+  background-color: rgba(0, 0, 0, 0.70); /* 70% opacity black background */
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px); /* Optional: adds a blur effect to the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures it takes up full viewport height */
+}
+
 .container {
   width: 100%;
-    max-width: 600px;
-    min-width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .input {
-    padding: 10px;
-    font-size: 16px;
-    background-color: black;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    color: white;
+  max-width: 600px;
+  min-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
 
-  }
-  
-  .button {
-    padding: 10px;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-  
-  .button:disabled {
-    background-color: #cccccc;
-  }
-  
-  .error {
-    color: red;
-  }
+.formHeader {
+  font-size: 2rem; /* Larger header */
+  color: #fff;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Improves readability over video */
+}
 
-  .formHeader {
-    margin-bottom: 10px;
-  }
-  
-  .select {
-    padding: 10px;
-    font-size: 16px;
-    background-color: black;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    color: white;
-  }
-  
-  /* Style for the options inside the select */
-  .select option {
-    padding: 10px;
-    font-size: 16px;
-    background-color: black;
-    border: none;
-    border-radius: 10px;
-  }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased spacing */
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 15px;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+}
+
+.input {
+  padding: 12px 12px 12px 50px; /* Adjusted padding for icon */
+  font-size: 1.25rem; /* Larger font */
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent for contrast */
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  color: #fff;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+.select {
+  padding: 12px 12px 12px 50px; /* Adjusted padding for icon */
+  font-size: 1.25rem; /* Larger font */
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  color: #fff;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.select:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+.select option {
+  background-color: #000;
+  color: #fff;
+}
+
+.button {
+  padding: 15px;
+  font-size: 1.5rem; /* Larger font */
+  background-color: #0070f3;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 1.1rem; /* Slightly larger for visibility */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}

@@ -1,4 +1,4 @@
-import { existsUniqueId, getRegistrationByUniqueId, getRegistrations, makeUniqueId } from "@/app/services/RegisterService";
+import { getRegistrationsNoUniqueId, makeUniqueId} from "@/app/services/RegisterService";
 
 const API_TOKEN = process.env.D1_API_TOKEN;
 const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -53,7 +53,7 @@ export async function POST(req) {
 --------------------------------------*/
 export async function GET(request) {
   try {
-    const registrations = await makeUniqueId();
+    const registrations = await getRegistrationsNoUniqueId();
     return Response.json(registrations, { status: 200 });
   } catch (error) {
     return new Response(

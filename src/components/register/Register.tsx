@@ -4,10 +4,11 @@ import { useState } from 'react';
 import styles from './register.module.css';
 import { toast } from 'react-toastify';
 import { RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
-import Turnstile,{ useTurnstile } from 'react-turnstile';
+import Turnstile, { useTurnstile } from 'react-turnstile';
+import { IconUser, IconMail, IconPhone, IconBuildingChurch, IconHome, IconCalendarEvent, IconUserPlus } from '@tabler/icons-react';
 
 export default function Register({ event }: { event: string }) {
-  const INITIAL_USER_REGISTRATION : RegisterData = {
+  const INITIAL_USER_REGISTRATION: RegisterData = {
     firstName: '',
     lastName: '',
     email: '',
@@ -43,30 +44,39 @@ export default function Register({ event }: { event: string }) {
         submitRegistration();
       } else {
         console.log("Turnstile verification failed:", data);
-        turnstile.reset(); 
+        turnstile.reset();
       }
     } catch (error) {
       console.error("Error during verification or registration:", error);
       turnstile.reset();
     }
   };
-  
 
-  // Function to handle form field changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserRegistration((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value, // Removed .trim() to allow spaces while typing
     }));
   };
 
-  const submitRegistration = async() => {
+  const submitRegistration = async () => {
+    // Optionally trim values here before sending to the backend if needed
+    const trimmedRegistration = {
+      ...userRegistration,
+      firstName: userRegistration.firstName.trim(),
+      lastName: userRegistration.lastName.trim(),
+      email: userRegistration.email.trim(),
+      mobile: userRegistration.mobile.trim(),
+      stake: userRegistration.stake.trim(),
+      childName: userRegistration.childName.trim(),
+    };
+
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userRegistration),
+        body: JSON.stringify(trimmedRegistration), // Use trimmed data for submission
       });
       const data = await res.json();
       if (res.ok) {
@@ -76,7 +86,7 @@ export default function Register({ event }: { event: string }) {
             backgroundColor: '#28a745',
             color: '#fff',
             fontSize: '25px',
-            padding: '15px 25px', 
+            padding: '15px 25px',
             maxWidth: '400px',
             minWidth: '250px',
           },
@@ -111,8 +121,8 @@ export default function Register({ event }: { event: string }) {
       }
     } finally {
       setLoading(false);
-    }      
-  }
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -154,127 +164,149 @@ export default function Register({ event }: { event: string }) {
     setInvokeCaptcha(true);
   };
 
-  const capitalizeEvent = (event : string) => {
-    if (event == "mesa") return "Mesa";
-    if (event == "tucson") return "Tucson";
-  }
+  const capitalizeEvent = (event: string) => {
+    if (event === "mesa") return "Mesa";
+    if (event === "tucson") return "Tucson";
+  };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.formHeader}>Register to get your FREE PASS for the {capitalizeEvent(event)} Concert</h1>
-      <div className={styles.form}>
-        <input
-          type="text"
-          placeholder="First Name*"
-          name="firstName"
-          value={userRegistration.firstName}
-          onChange={handleInputChange}
-          required
-          className={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Last Name*"
-          name="lastName"
-          value={userRegistration.lastName}
-          onChange={handleInputChange}
-          required
-          className={styles.input}
-        />
-        <input
-          type="email"
-          placeholder="Email*"
-          name="email"
-          value={userRegistration.email}
-          onChange={handleInputChange}
-          required
-          className={styles.input}
-        />
-        {emailError && <div className={styles.error}>{emailError}</div>}
-        <input
-          type="tel"
-          placeholder="Mobile Number"
-          name="mobile"
-          value={userRegistration.mobile}
-          onChange={handleInputChange}
-          required
-          className={styles.input}
-        />
-         {mobileError && <div className={styles.error}>{mobileError}</div>}
-          <select
-          name="religion"
-          value={userRegistration.religion}
-          onChange={handleInputChange}
-          className={styles.select}
-          required
-        >
-        <option value="" disabled>Religion*</option>
-        <option value="LDS">Church of Jesus Christ of Latter Day Saints</option>
-        <option value="Other Christian">Other Christian</option>
-        <option value="Judaism">Judaism</option>
-        <option value="Muslim">Muslim</option>
-        <option value="Hindu">Hindu</option>
-        <option value="Atheist / Agnostic">Atheist / Agnostic</option>
-        <option value="Other">Other</option>
-      </select>
-
-      {userRegistration.religion === "LDS" && 
-        <input
-            type="stake"
-            placeholder="Enter your Stake Name"
-            name="stake"
-            value={userRegistration.stake}
-            onChange={handleInputChange}
-            required
-            className={styles.input}
-          />
-        }
-
-      <select
-        name="age"
-        value={userRegistration.age}
-        onChange={handleInputChange}
-        className={styles.select}
-        required
-      >
-        <option value="" disabled>Age*</option>
-        {event === "tucson" && <option value="12">12</option>}
-        {event === "tucson" && <option value="13">13</option>}
-        <option value="14">14</option>
-        <option value="15">15</option>
-        <option value="16">16</option>
-        <option value="17">17</option>
-        <option value="18">18</option>
-        <option value="Adult">Adult (accompanying youth with special needs)</option>
-      </select>
-      {userRegistration.age === "Adult" && 
-        <>
-          <input
-          type="childName"
-          placeholder="Enter name of youth you're accompanying*"
-          name="childName"
-          value={userRegistration.childName}
-          onChange={handleInputChange}
-          required
-          className={styles.input}
-        />
-        {ageError && <div className={styles.error}>{ageError}</div>}
-        </>
-      }
-        <button onClick={handleSubmit} disabled={loading} className={styles.button}>
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-        {error && <p className={styles.error}>{error}</p>}
-      </div>
-      {invokeCaptcha &&  
-        <div className="mt-10">
-          <Turnstile
-            sitekey="0x4AAAAAAA_eIsBMQxAtxnSx"
-            onVerify={handleVerification}
-          />
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <h1 className={styles.formHeader}>Register to get your FREE PASS for the <span className="text-5xl font-semibold">{capitalizeEvent(event)}</span> Concert</h1>
+        <div className={styles.form}>
+          <div className={styles.inputGroup}>
+            <IconUser className={styles.icon} />
+            <input
+              type="text"
+              placeholder="First Name*"
+              name="firstName"
+              value={userRegistration.firstName}
+              onChange={handleInputChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <IconUser className={styles.icon} />
+            <input
+              type="text"
+              placeholder="Last Name*"
+              name="lastName"
+              value={userRegistration.lastName}
+              onChange={handleInputChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <IconMail className={styles.icon} />
+            <input
+              type="email"
+              placeholder="Email*"
+              name="email"
+              value={userRegistration.email}
+              onChange={handleInputChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          {emailError && <div className={styles.error}>{emailError}</div>}
+          <div className={styles.inputGroup}>
+            <IconPhone className={styles.icon} />
+            <input
+              type="tel"
+              placeholder="Mobile Number"
+              name="mobile"
+              value={userRegistration.mobile}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+          {mobileError && <div className={styles.error}>{mobileError}</div>}
+          <div className={styles.inputGroup}>
+            <IconBuildingChurch className={styles.icon} />
+            <select
+              name="religion"
+              value={userRegistration.religion}
+              onChange={handleInputChange}
+              className={styles.select}
+              required
+            >
+              <option value="" disabled>Religion*</option>
+              <option value="LDS">Church of Jesus Christ of Latter Day Saints</option>
+              <option value="Other Christian">Other Christian</option>
+              <option value="Judaism">Judaism</option>
+              <option value="Muslim">Muslim</option>
+              <option value="Hindu">Hindu</option>
+              <option value="Atheist / Agnostic">Atheist / Agnostic</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          {userRegistration.religion === "LDS" && (
+            <div className={styles.inputGroup}>
+              <IconHome className={styles.icon} />
+              <input
+                type="text"
+                placeholder="Enter your Stake Name"
+                name="stake"
+                value={userRegistration.stake}
+                onChange={handleInputChange}
+                required
+                className={styles.input}
+              />
+            </div>
+          )}
+          <div className={styles.inputGroup}>
+            <IconCalendarEvent className={styles.icon} />
+            <select
+              name="age"
+              value={userRegistration.age}
+              onChange={handleInputChange}
+              className={styles.select}
+              required
+            >
+              <option value="" disabled>Age*</option>
+              {event === "tucson" && <option value="12">12</option>}
+              {event === "tucson" && <option value="13">13</option>}
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="Adult">Adult (accompanying youth with special needs)</option>
+            </select>
+          </div>
+          {userRegistration.age === "Adult" && (
+            <>
+              <div className={styles.inputGroup}>
+                <IconUserPlus className={styles.icon} />
+                <input
+                  type="text"
+                  placeholder="Enter name of youth you're accompanying*"
+                  name="childName"
+                  value={userRegistration.childName}
+                  onChange={handleInputChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
+              {ageError && <div className={styles.error}>{ageError}</div>}
+            </>
+          )}
+          <button onClick={handleSubmit} disabled={loading} className={styles.button}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
-      }
+        {invokeCaptcha && (
+          <div className="mt-10">
+            <Turnstile
+              sitekey="0x4AAAAAAA_eIsBMQxAtxnSx"
+              onVerify={handleVerification}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-

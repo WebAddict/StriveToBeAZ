@@ -2,10 +2,9 @@
 * This is the backend services for register. Any backend functions or code should go here and then be called by the api
 */
 
-import { D1Database } from "@cloudflare/workers-types";
-const API_TOKEN = process.env.D1_API_TOKEN;
-const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
-const DB = process.env.DATABASE_ID;
+
+import { fetchDb, qstr } from "./DbService";
+
 
 export interface RegisterData {
     firstName: string;
@@ -16,7 +15,7 @@ export interface RegisterData {
     age: string;
     stake: string;
     event: string;
-    childName?: string;
+    childName: string;
     uniqueId?: string;
 }
 
@@ -36,34 +35,6 @@ const phonePattern = /^(?:\(\d{3}\)|\d{3})(?:[-\s]?)\d{3}(?:[-\s]?)\d{4}$/;
 
 export function cleanPhoneNumber(number: string) {
       return number.replace(/[^\d\(\)\-\s]/g, '');
-}
-
-export function addRegistration(
-    db: D1Database, 
-    firstName: string, 
-    lastName: string, 
-    email: string, 
-    mobile: string, 
-    age: string, 
-    event: string, 
-    religion: string,
-) {
-    let sql = `
-        INSERT INTO registrations (first_name, last_name, email, mobile, age, event, religion, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-    `;
-    // Prepare the statement with the provided values
-
-    try {
-        // Prepare the statement with the provided values
-        return db.prepare(sql)
-            .bind(firstName, lastName, email, mobile, age, event, religion)
-            .run();
-    } catch (error) {
-        // Log the error if database insertion fails
-        console.error("Database error:", error);
-        throw new Error('Database insertion failed');
-    }
 }
 
 function generateRandomString(length: number): string {
@@ -99,38 +70,7 @@ export async function makeUniqueId(length = 8) {
 *           DATABASE FUNCTIONS
 ------------------------------------------------*/
 
-export async function getRegistrations(whichEvent: string) {
-  // Define valid events
-  const validEvents = ['mesa', 'tucson'];
-
-  // Validate whichEvent
-  if (!whichEvent || !validEvents.includes(whichEvent.toLowerCase())) {
-    throw new Error("Invalid or missing event parameter. Must be 'mesa' or 'tucson'");
-  }
-
-  try {
-    const sql = `SELECT * FROM REGISTRATIONS WHERE event='${whichEvent.toLowerCase()}' COLLATE NOCASE`;
-    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${API_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({sql})
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error('Could not fetch registrations');
-    }
-
-    return data.result;
-  } catch (error) {
-    throw new Error(JSON.stringify(error));
-  }
-}
-
-  export async function getRegistrationsCSV() {
+  export async function getRegistrationsOld() {
     try {
         const sql = `SELECT * FROM REGISTRATIONS WHERE event='mesa' COLLATE NOCASE`;
         const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
@@ -152,37 +92,73 @@ export async function getRegistrations(whichEvent: string) {
         throw new Error(JSON.stringify(error));
       }
   }
-
-  export async function existsUniqueId(uniqueId: string) {
-    try {
-      const sql = `SELECT COUNT(*) as count FROM REGISTRATIONS WHERE uniqueid = ?`;
+  export async function getRegistrationsRich(whichEvent: string) {
+    // Define valid events
+    const validEvents = ['mesa', 'tucson'];
   
+    // Validate whichEvent
+    if (!whichEvent || !validEvents.includes(whichEvent.toLowerCase())) {
+      throw new Error("Invalid or missing event parameter. Must be 'mesa' or 'tucson'");
+    }
+  
+    try {
+      const sql = `SELECT * FROM REGISTRATIONS WHERE event='${whichEvent.toLowerCase()}' COLLATE NOCASE`;
       const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${API_TOKEN}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          sql,
-          params: [uniqueId]
-        })
+        body: JSON.stringify({sql})
       });
   
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(JSON.stringify("Error getting registration"));
+        throw new Error('Could not fetch registrations');
       }
-
-      if (data.result && data.result[0].results && data.result[0].results[0].count > 0) {
-        return true;
-      } else {
-        return false;
-      }
+  
+      return data.result;
     } catch (error) {
       throw new Error(JSON.stringify(error));
     }
   }
+
+export async function getRegistrations(event=false) {
+    try {
+        let sql = "SELECT * FROM REGISTRATIONS";
+        if (event) {
+            const escapedEvent = qstr(event);
+            sql += ` WHERE event = ${escapedEvent} COLLATE NOCASE`;
+        }
+        const data = await fetchDb(sql);
+        return data;
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
+    }
+}
+
+export async function existsUniqueId(uniqueId: string) {
+    try {
+        const id = qstr(uniqueId);
+        const sql = `SELECT COUNT(*) as count FROM REGISTRATIONS WHERE uniqueid = ${id}`;
+        const data = await fetchDb(sql);
+        return data[0].count > 0;
+    } catch (error) {
+        throw new Error(JSON.stringify(error));
+    }
+}
+
+export async function updateRegistrationUniqueid(uniqueId : string, registerId : string) {
+    try {
+        const escapedUniqueId = qstr(uniqueId);
+        const escapedRegisterId = qstr(registerId);
+        let sql = `UPDATE REGISTRATIONS SET uniqueid = ${escapedUniqueId} WHERE id = ${escapedRegisterId}`;
+        const data = await fetchDb(sql);
+        return true;
+    } catch (error) {
+        throw new Error(`Error: ${JSON.stringify(error)}`);
+    }
+}
 
 
 
