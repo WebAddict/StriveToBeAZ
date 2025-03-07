@@ -19,6 +19,11 @@ export interface RegisterData {
     uniqueId?: string;
 }
 
+export interface RegisterConfirm {
+    confirmFSY: boolean;
+    confirmAdult: boolean;
+}
+
 export function validateEmailInput(email: string) {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 }
@@ -92,6 +97,18 @@ export async function getRegistrations(event=false) {
         throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
     }
 }
+
+export async function getRegistrationByUniqueId(uniqueId : string) {
+    try {
+        const id = qstr(uniqueId);
+        const sql = `SELECT * FROM REGISTRATIONS WHERE uniqueid = ${id}`;
+        const data = await fetchDb(sql);
+        return data[0];
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
+    }
+}
+
 
 export async function existsUniqueId(uniqueId: string) {
     try {

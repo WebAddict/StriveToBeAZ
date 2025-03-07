@@ -8,18 +8,49 @@ const DB = process.env.DATABASE_ID;
 --------------------------------------*/
 export async function POST(req) {
   try {
-    const { firstName, lastName, email, mobile, age, event, religion, stake, childName } = await req.json();
+    const { firstName, lastName, email, mobile, age, event, religion, stake, childName, isConfirm, registerid } = await req.json();
 
     if (!firstName || !lastName || !email || !age || !religion) {
       return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
     }
 
-    const uniqueid = await makeUniqueId();
+    let uniqueid;
+    if (isConfirm) {
+       uniqueid = registerid;
+    } else {
+       uniqueid = await makeUniqueId();
+    }
 
-    const sql = `
+    let sql;
+    if (isConfirm) {
+       sql = `
+        UPDATE registrations SET first_name = ?, last_name = ?, email = ?, mobile = ?, age = ?, event = ?, religion = ?, stake = ?, child_name = ?, uniqueid = ?, terms_date = CURRENT_TIMESTAMP
+        WHERE uniqueid = ?;
+      `;
+    } else {
+       sql = `
       INSERT INTO registrations (first_name, last_name, email, mobile, age, event, religion, stake, child_name, uniqueid, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `;
+    }
+
+    // Prepare the params for the query
+    const params = [
+      firstName, 
+      lastName, 
+      email, 
+      mobile, 
+      age, 
+      event, 
+      religion, 
+      stake, 
+      childName, 
+      uniqueid
+    ];
+
+    if (isConfirm) {
+      params.push(uniqueid); 
+    }
 
     const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/d1/database/${DB}/query`, {
       method: "POST",
@@ -27,7 +58,10 @@ export async function POST(req) {
         "Authorization": `Bearer ${API_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ sql, params: [firstName, lastName, email, mobile, age, event, religion, stake, childName, uniqueid] }),
+      body: JSON.stringify({
+        sql,
+        params
+      }),
     });
 
     const data = await response.json();
@@ -51,9 +85,18 @@ export async function POST(req) {
 /*-------------------------------------
 *             GET REQUEST
 --------------------------------------*/
-export async function GET(request) {
+export async function GET(req) {
   try {
-    const registrations = await getRegistrationsNoUniqueId();
+    const url = new URL(req.url);
+    const uniqueid = url.searchParams.get('uniqueid');
+
+    if (!uniqueid) {
+      return new Response(
+        JSON.stringify({ error: 'Missing uniqueid parameter' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    const registrations = await getRegistrationsByUniqueId(uniqueid);
     return Response.json(registrations, { status: 200 });
   } catch (error) {
     return new Response(

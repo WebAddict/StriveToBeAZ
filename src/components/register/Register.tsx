@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './register.module.css';
 import { toast } from 'react-toastify';
-import { RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
+import { RegisterConfirm, RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
 import Turnstile, { useTurnstile } from 'react-turnstile';
 import { IconUser, IconMail, IconPhone, IconBuildingChurch, IconHome, IconCalendarEvent, IconUserPlus } from '@tabler/icons-react';
 
-export default function Register({ event }: { event: string }) {
+export default function Register({ event, isConfirm=false, registration = null }: { event: string, isConfirm : boolean, registration : any }) {
   const INITIAL_USER_REGISTRATION: RegisterData = {
     firstName: '',
     lastName: '',
@@ -25,7 +25,31 @@ export default function Register({ event }: { event: string }) {
   const [emailError, setEmailError] = useState('');
   const [ageError, setAgeError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [confirmError, setConfirmError] = useState('');
   const [invokeCaptcha, setInvokeCaptcha] = useState(false);
+  const [confirm, setConfirm] = useState<RegisterConfirm>({
+    confirmFSY: false,
+    confirmAdult: false,
+  })
+
+  useEffect(() => {
+    if (registration && isConfirm) {
+      setUserRegistration({
+        firstName: registration.first_name || '',
+        lastName: registration.last_name || '',
+        email: registration.email || '',
+        mobile: registration.mobile || '',
+        religion: registration.religion || '',
+        age: registration.age || '',
+        stake: registration.stake || '',
+        event: registration.event || event,
+        childName: registration.child_name || '',
+        uniqueId: registration.uniqueid || '',
+      });
+    }
+    console.log(JSON.stringify(userRegistration));
+
+  }, [registration, isConfirm, event]);
 
   const turnstile = useTurnstile();
 
@@ -60,6 +84,18 @@ export default function Register({ event }: { event: string }) {
     }));
   };
 
+  const handleConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setConfirm((prevState) => ({
+      ...prevState,
+      [name]: checked, 
+    }));
+  };
+
+
+  /**************************************************************************************
+  * THIS IS FOR FIRST TIME REGISTRATION
+  ***************************************************************************************/
   const submitRegistration = async () => {
     // Optionally trim values here before sending to the backend if needed
     const trimmedRegistration = {
@@ -70,6 +106,8 @@ export default function Register({ event }: { event: string }) {
       mobile: userRegistration.mobile.trim(),
       stake: userRegistration.stake.trim(),
       childName: userRegistration.childName.trim(),
+      isConfirm: isConfirm && confirm.confirmFSY && (userRegistration.age !== "Adult" || confirm.confirmAdult),
+      registerid: isConfirm ? userRegistration.uniqueId : null,
     };
 
     try {
@@ -160,20 +198,58 @@ export default function Register({ event }: { event: string }) {
       setLoading(false);
       return;
     }
+    if (isConfirm) {
+      if ((userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY) {
+        setConfirmError('You must acknowledge the checkboxes above to finalize your registration process');
+        setLoading(false);
+        return;
+      }
+    }
 
     setInvokeCaptcha(true);
   };
 
   const capitalizeEvent = (event: string) => {
-    if (event === "mesa") return "Mesa";
-    if (event === "tucson") return "Tucson";
+    return event.charAt(0).toUpperCase() + event.slice(1).toLowerCase();
   };
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
+        {!isConfirm ? 
         <h1 className={styles.formHeader}>Register to get your FREE PASS for the <span className="text-5xl font-semibold">{capitalizeEvent(event)}</span> Concert</h1>
+        :
+        <h3 className={styles.formHeader}>We just need a little more information before finalizing your registration</h3>
+      }
         <div className={styles.form}>
+          {isConfirm &&
+            <div>
+            <div className="flex items-center">
+              <input 
+                type="checkbox"
+                name="confirmFSY"
+                checked={confirm.confirmFSY}
+                onChange={handleConfirmChange} 
+                className="form-checkbox h-10 w-10 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="ml-4 text-white text-left">I acknowledge that my clothing choices will align with the standards outlined in the For the Strength of Youth</span>
+            </div>
+          
+            {userRegistration.age === "Adult" && 
+              <div className="flex items-center mt-5">
+                <input 
+                  type="checkbox"
+                  name="confirmAdult"
+                  checked={confirm.confirmAdult}
+                  onChange={handleConfirmChange}
+                  className="form-checkbox h-7 w-7 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                  />
+                <span className="ml-4 text-white text-left">I acknowledge that I will accompany {userRegistration.childName} at all times during this event</span>
+              </div>
+            }
+          </div>
+      
+          }
           <div className={styles.inputGroup}>
             <IconUser className={styles.icon} />
             <input
@@ -293,9 +369,17 @@ export default function Register({ event }: { event: string }) {
               {ageError && <div className={styles.error}>{ageError}</div>}
             </>
           )}
-          <button onClick={handleSubmit} disabled={loading} className={styles.button}>
-            {loading ? 'Registering...' : 'Register'}
-          </button>
+           {confirmError && <div className={styles.error}>{confirmError}</div>}
+
+          {isConfirm ? 
+            <button onClick={handleSubmit} disabled={loading || (userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY} className={styles.button}>
+              {loading ? 'Updating registration...' : 'Confirm'}
+            </button> 
+            :
+            <button onClick={handleSubmit} disabled={loading} className={styles.button}>
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+          }
           {error && <p className={styles.error}>{error}</p>}
         </div>
         {invokeCaptcha && (
