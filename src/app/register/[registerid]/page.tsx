@@ -73,14 +73,18 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       date: "3/28/2025",
       time: "8pm-10pm",
       gateOpen: "7pm",
-      location: "Mesa Amphitheater, 263 N Center St, Mesa, AZ 85201",
+      location: "Mesa Amphitheater",
+      locationAlt: "263 N Center St, Mesa, AZ 85201",
+      header: "This ENTRY PASS is required for entry, but does not guarantee entry. Gates open at 7pm, first come first serve."
     },
     tucson: {
       name: "Tucson",
       date: "3/29/2025",
       time: "6pm-8pm",
-      gateOpen: null,
-      location: "10800 E Valencia Rd, Tucson, AZ 85747",
+      gateOpen: "5pm",
+      location: "Mica Mountain High School Stadium",
+      locationAlt: "10800 E Valencia Rd, Tucson, AZ 85747",
+      header: "This ENTRY PASS is required for entry, but does not guarantee entry. Gates open at 5pm, first come first serve."
     },
   };
 
@@ -98,7 +102,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       // Create a temporary link to trigger the download
       const link = document.createElement("a");
       link.href = imageUrl;
-      link.download = "registration-pass.png";
+      link.download = `strivetobe-${registration.uniqueid}.png`;
       link.click();
     }
   };
@@ -121,36 +125,44 @@ export default function RegisterPage({ params }: RegisterPageProps) {
         }}
       >
         {/* Top Black Section */}
-        <div style={{ width: "100%", backgroundColor: "#222222", color: "#fff", paddingLeft: 30, paddingRight: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "10px" }}>
-            <img
-              src="/strivetobeaz_logo_2x.png"
-              className="h-24"
-              alt="Strive to Be AZ"
-            />
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <div className="text-4xl tracking-widest text-center">
+        <div style={{ width: "100%", backgroundColor: "#00163b", color: "#fff", paddingLeft: 30, paddingRight: 10,paddingBottom: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "10px", alignItems: "center" }}>
+            {/* Left section with stacked logo and date */}
+            <div>
+              <img
+                src="/strivetobeaz_logo_2x.png"
+                className="h-32 -mb-4"
+                alt="Strive to Be AZ"
+              />
+              <div className="text-md tracking-widest">{eventInfo.date}</div>
+            </div>
+
+            {/* Right section with event details */}
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}>
+              <div className="text-4xl tracking-widest">
                 {eventInfo.name.toUpperCase()}
               </div>
-              <div className="text-lg tracking-widest">{eventInfo.date}</div>
+              <div className="text-3xl tracking-widest">ENTRY</div>
+              <div className="text-3xl tracking-widest">PASS</div>
             </div>
           </div>
         </div>
+
 
         {/* Middle Section */}
         <div style={{
           flexGrow: 1,
           paddingBottom: "20px",
         }} className="text-gray-900 px-10 mt-5">
-          <div className="text-gray-700 font-bold text-sm">
-            You must have this pass to gain entry into the event
+          <div className="text-gray-700 italic font-bold text-sm">
+            {eventInfo.header}
           </div>
           <div className="text-orange-600 font-bold text-xl text-left mt-7">
             {registration.first_name} {registration.last_name}
           </div>
           {registration.child_name &&
             <div className="text-gray-800 font-bold text-xs text-left mt-1">
-              accompanying: {registration.child_name}
+              Accompanying: {registration.child_name}
             </div>
           }
           {registration.stake &&
@@ -161,12 +173,15 @@ export default function RegisterPage({ params }: RegisterPageProps) {
           <div className="text-gray-800 font-bold text-sm text-left mt-1">
             {registration.email}
           </div>
-          <div className="text-gray-900 font-bold text-sm text-left mt-5">
-            <strong>Location:</strong> {eventInfo.location}
+          <div className="text-blue-900 font-bold text-md text-left mt-5">
+            {eventInfo.location}
           </div>
+          {eventInfo.locationAlt && <div className="text-gray-900 font-bold text-sm text-left">
+            {eventInfo.locationAlt}
+          </div>
+          }
           <div className="text-gray-900 font-bold text-sm text-left mt-5">
-            <strong>Starts:</strong> {eventInfo.time}
-            {registration.event === "mesa" && <span>, gate open: {eventInfo.gateOpen}</span>}
+            {eventInfo.time}, gates open at {eventInfo.gateOpen}
           </div>
         </div>
         <div style={{
@@ -178,7 +193,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
           color: 'black'
         }}>
           <div><strong>Age:</strong> {registration.age}</div>
-          <div className="italic">{registration.uniqueid}</div>
+          <div className="italic tracking-tightest font-semibold text-gray-800 text-sm mt-1 ">pass:{registration.uniqueid.toUpperCase()}</div>
         </div>
       </div>
     );
@@ -195,7 +210,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
             {registration.terms_date &&
               <div className="text-center px-10">
                 <div className="text-lg mt-5">This is your pass to gain entry into the event.</div>
-                <div className="text-lg text-orange-500">You must have a photo of this pass with you to enter the event.</div>
+                <div className="text-lg text-orange-500">{getEventInfo(registration.event).header}</div>
               </div>
             }
           </div>
