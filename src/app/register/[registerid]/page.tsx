@@ -148,7 +148,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
           <div className="text-orange-600 font-bold text-xl text-left mt-7">
             {registration.first_name} {registration.last_name}
           </div>
-          {!registration.child_name &&
+          {registration.child_name &&
             <div className="text-gray-800 font-bold text-xs text-left mt-1">
               accompanying: {registration.child_name}
             </div>
