@@ -193,10 +193,10 @@ export default function RegisterPage({ params }: RegisterPageProps) {
             <div className="mb-10 text-6xl font-semibold">Strive To Be</div>
             {!registration.terms_date ? <div>Finalize your registration</div> : <div>My Pass</div>}
             {registration.terms_date &&
-              <>
+              <div className="text-center px-10">
                 <div className="text-lg mt-5">This is your pass to gain entry into the event.</div>
-                <div className="text-lg">You must have this with you to enter.</div>
-              </>
+                <div className="text-lg text-orange-500">You must have a photo of this pass with you to enter the event.</div>
+              </div>
             }
           </div>
         </div>
@@ -212,7 +212,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
             </div>
           </div>
           :
-          <div style={{ display: "grid", placeItems: "center", marginTop: 50 }}>
+          <div style={{ display: "grid", placeItems: "center", marginTop: 50, marginBottom: 30 }}>
             <RegistrationPass />
             <button className="font-bold rounded-lg text-lg w-72 h-12 mt-5 bg-[#ea9920] text-[#ffffff] justify-center" onClick={handleDownloadPass}>Download Pass</button>
           </div>

@@ -15,12 +15,12 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="border-gray-200  bg-gray-900  border-gray-700 w-full">
+        <nav style={{backgroundColor: "#161323"}} className="border-gray-200  w-full">
             <div className="flex flex-wrap items-center justify-between mx-auto px-5">
                 <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img 
                         src="/strivetobeaz_logo_2x.png" 
-                        className="h-24 sm:h-28 md:h-36" 
+                        className="h-24 sm:h-28 md:h-32" 
                         alt="Strive to Be AZ" 
                     />
                     <span className="self-center text-xl sm:text-2xl md:text-3xl font-semibold whitespace-nowrap  text-white">
@@ -57,7 +57,7 @@ const Navbar = () => {
                                 <div className="flex justify-between"><IconAt className="mr-1" />StriveToBeAZ</div>
                             </button>
                             {isDropdownOpen && (
-                                <ul className=" text-white absolute left-[-100px] bg-gray-800 rounded-lg mt-2 py-2 text-base text-gray-700  text-gray-200 w-56" aria-labelledby="dropdownDefaultButton">
+                                <ul style={{backgroundColor: "#161323"}} className=" text-white absolute left-[-100px] rounded-lg mt-2 py-2 text-base text-gray-700  text-gray-200 w-56" aria-labelledby="dropdownDefaultButton">
                                     {/* Facebook */}
                                     <li className="w-full">
                                     <a href="https://www.facebook.com/strivetobeaz" target="_blank" className="flex items-center w-full py-2 hover:bg-gray-100  hover:bg-gray-600  hover:text-white">

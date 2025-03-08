@@ -17,7 +17,7 @@ export default function Home() {
       </div>
 
       <div
-        className="mb-32 text-white grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left"
+        className="mb-32 text-white grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left pb-5"
         style={{
           background: 'radial-gradient(circle, rgba(55, 65, 81, 0.3) 0%, rgba(55, 65, 81, 0) 100%)',
           transition: 'background 0.3s ease',
