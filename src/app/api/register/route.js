@@ -1,4 +1,4 @@
-import { getRegistrationsNoUniqueId, makeUniqueId} from "@/app/services/RegisterService";
+import { getRegistrationByUniqueId, getRegistrationsNoUniqueId, makeUniqueId} from "@/app/services/RegisterService";
 
 const API_TOKEN = process.env.D1_API_TOKEN;
 const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -88,7 +88,7 @@ export async function POST(req) {
 export async function GET(req) {
   try {
     const url = new URL(req.url);
-    const uniqueid = url.searchParams.get('uniqueid');
+    const uniqueid = url.searchParams.get('registerid');
 
     if (!uniqueid) {
       return new Response(
@@ -96,7 +96,7 @@ export async function GET(req) {
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
-    const registrations = await getRegistrationsByUniqueId(uniqueid);
+    const registrations = await getRegistrationByUniqueId(uniqueid);
     return Response.json(registrations, { status: 200 });
   } catch (error) {
     return new Response(
