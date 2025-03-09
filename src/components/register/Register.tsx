@@ -125,8 +125,8 @@ export default function Register({ event, isConfirm = false, registration = null
         body: JSON.stringify(trimmedRegistration), // Use trimmed data for submission
       });
       const data = await res.json();
-      if (res.ok && !isConfirm) {
-        toast.success('Registration successful! You will get your Entry Pass by email around 3/15', {
+      if (res.ok) {
+        toast.success(isConfirm ? 'Thank you for confirming your registration!' : 'Registration successful! You will get your Entry Pass by email around 3/15', {
           position: 'top-center',
           style: {
             backgroundColor: '#28a745',

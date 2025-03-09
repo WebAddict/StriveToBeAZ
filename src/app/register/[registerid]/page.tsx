@@ -278,8 +278,11 @@ export default function RegisterPage({ params }: RegisterPageProps) {
                 You're almost there!
               </div>
             </div>
-            <div className="mb-10 flex justify-center">
+            <div className="mb-20 flex flex-col items-center">
               <Register event={registration.event} isConfirm registration={registration} setTermsDate={setTermsDate} />
+              <button className="flex items-center justify-center gap-2 font-bold rounded-lg text-lg w-72 h-12 bg-red-700 text-[#ffffff]" onClick={() => setOpenCancelModal(true)}>
+                <IconCancel />Cancel this registration
+              </button>
             </div>
           </div>
           :
