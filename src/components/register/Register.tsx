@@ -6,8 +6,16 @@ import { toast } from 'react-toastify';
 import { RegisterConfirm, RegisterData, validateEmailInput, validatePhoneInput } from '@/app/services/RegisterService';
 import Turnstile, { useTurnstile } from 'react-turnstile';
 import { IconUser, IconMail, IconPhone, IconBuildingChurch, IconHome, IconCalendarEvent, IconUserPlus } from '@tabler/icons-react';
+import { useRouter } from "next/navigation";
 
-export default function Register({ event, isConfirm=false, registration = null }: { event: string, isConfirm : boolean, registration : any }) {
+interface RegisterProps {
+  event: string;
+  isConfirm?: boolean;
+  registration?: any;
+  setTermsDate?: () => void;
+}
+
+export default function Register({ event, isConfirm = false, registration = null, setTermsDate }: RegisterProps) {  
   const INITIAL_USER_REGISTRATION: RegisterData = {
     firstName: '',
     lastName: '',
@@ -31,6 +39,7 @@ export default function Register({ event, isConfirm=false, registration = null }
     confirmFSY: false,
     confirmAdult: false,
   })
+  const router = useRouter();
 
   useEffect(() => {
     if (registration && isConfirm) {
@@ -47,7 +56,6 @@ export default function Register({ event, isConfirm=false, registration = null }
         uniqueId: registration.uniqueid || '',
       });
     }
-    console.log(JSON.stringify(userRegistration));
 
   }, [registration, isConfirm, event]);
 
@@ -117,21 +125,25 @@ export default function Register({ event, isConfirm=false, registration = null }
         body: JSON.stringify(trimmedRegistration), // Use trimmed data for submission
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && !isConfirm) {
         toast.success('Registration successful! You will get your Entry Pass by email around 3/15', {
           position: 'top-center',
           style: {
             backgroundColor: '#28a745',
             color: '#fff',
-            fontSize: '25px',
+            fontSize: '20px',
             padding: '15px 25px',
             maxWidth: '400px',
             minWidth: '250px',
           },
         });
-        setUserRegistration(INITIAL_USER_REGISTRATION);
-        turnstile.reset();
-        setInvokeCaptcha(false);
+        if (isConfirm && setTermsDate) {
+          setTermsDate();
+        } else {
+          setUserRegistration(INITIAL_USER_REGISTRATION);
+          turnstile.reset();
+          setInvokeCaptcha(false);
+        }
       } else {
         if (data && typeof data === 'object' && 'error' in data) {
           const errorMessage = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);

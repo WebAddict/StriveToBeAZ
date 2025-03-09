@@ -70,7 +70,7 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: "Database error", details: data }), { status: 500 });
     }
 
-    return new Response(JSON.stringify({ message: "Registration successful", data }), { status: 201 });
+    return new Response(JSON.stringify({ message: "Registration successful", data, uniqueid: uniqueid }), { status: 201 });
   } catch (error) {
     return new Response(
       JSON.stringify({

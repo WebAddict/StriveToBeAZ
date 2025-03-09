@@ -4,6 +4,9 @@ import Navbar from "@/components/navbar/Navbar";
 import Register from "@/components/register/Register";
 import html2canvas from "html2canvas";
 import Loader from "@/components/Loader/Loader";
+import CancelModal from "@/components/CancelModal/CancelModal";
+import { cancelRegistration } from "@/app/services/RegisterService";
+import { IconCancel, IconDownload } from "@tabler/icons-react";
 
 interface RegisterPageProps {
   params: {
@@ -17,6 +20,18 @@ export default function RegisterPage({ params }: RegisterPageProps) {
   const [registration, setRegistration] = useState<any>(null); // Store registration data
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
+  const[openCancelModal, setOpenCancelModal] = useState<boolean>(false);
+  const [cancelled, setCancelled] = useState<boolean>(false);
+  const [noRegistration, setNoRegistration] = useState<boolean>(false); 
+
+  const closeModal = () => {
+    setOpenCancelModal(false);
+  };
+
+  const setTermsDate = () => {
+    console.log('WHATs going on');
+    setRegistration((prev: Record<string, any>) => ({ ...prev, terms_date: new Date() }));
+  };
 
   useEffect(() => {
     // Fetch registration data
@@ -27,20 +42,44 @@ export default function RegisterPage({ params }: RegisterPageProps) {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch registration data");
+          setNoRegistration(true);
         }
 
         const data = await response.json();
-        setRegistration(data); // Set registration data to state
+        setRegistration(data);
       } catch (error) {
         setError("Error fetching registration data: " + (error as Error).message);
       } finally {
-        setLoading(false); // Set loading to false once fetch is complete
+        setLoading(false);
       }
     };
 
     fetchRegistrationData();
   }, [registerid]);
+
+  const deleteRegistration = async (uniqueid: string, id: string) => {
+    try {
+      const response = await fetch(`/api/cancel`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uniqueid, id }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Could not delete registration");
+      }
+  
+      const data = await response.json();
+      setCancelled(true);
+    } catch (error) {
+      setError("Error deleting registration data: " + (error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   if (loading) {
     return (
@@ -51,11 +90,13 @@ export default function RegisterPage({ params }: RegisterPageProps) {
   }
 
   if (error) {
-    return <div>{error}</div>; // Error handling
+    return <div>{error}</div>;
   }
 
-  if (!registration || registration.length < 1) {
+  if (noRegistration || !registration || registration.length < 1) {
     return (
+      <>
+      <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-900">
         <div className="max-w-lg w-full bg-gray-700 text-white p-8 rounded-lg shadow-xl text-center">
           <h2 className="text-3xl font-semibold mb-4">Oops! No Registration Found</h2>
@@ -64,6 +105,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
           </p>
         </div>
       </div>
+      </>
     );
   }
 
@@ -106,6 +148,19 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       link.click();
     }
   };
+  
+  if (cancelled) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="max-w-lg w-full bg-gray-700 text-white p-8 rounded-lg shadow-xl text-center">
+        <h2 className="text-3xl font-semibold mb-4">Deletion Notice</h2>
+        <p className="text-lg mb-4">
+          Your registration has been deleted
+        </p>
+      </div>
+    </div>
+    )
+  }
 
   const RegistrationPass = () => {
     const eventInfo = getEventInfo(registration.event);
@@ -201,6 +256,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
 
   return (
     <main className="flex flex-col items-center justify-between">
+      <CancelModal isOpen={openCancelModal} closeModal={closeModal} submitCancel={() => deleteRegistration(registration.uniqueid, registration.id)} />
       <Navbar />
       <div>
         <div className="mt-12">
@@ -223,13 +279,14 @@ export default function RegisterPage({ params }: RegisterPageProps) {
               </div>
             </div>
             <div className="mb-10 flex justify-center">
-              <Register event={registration.event} isConfirm registration={registration} />
+              <Register event={registration.event} isConfirm registration={registration} setTermsDate={setTermsDate} />
             </div>
           </div>
           :
           <div style={{ display: "grid", placeItems: "center", marginTop: 50, marginBottom: 30 }}>
             <RegistrationPass />
-            <button className="font-bold rounded-lg text-lg w-72 h-12 mt-5 bg-[#ea9920] text-[#ffffff] justify-center" onClick={handleDownloadPass}>Download Pass</button>
+            <button className="flex items-center justify-center gap-2 font-bold rounded-lg text-lg w-72 h-12 mt-5 bg-[#ea9920] text-[#ffffff]" onClick={handleDownloadPass}><IconDownload/>Download Pass</button>
+            <button className="flex items-center justify-center gap-2 font-bold rounded-lg text-lg w-72 h-12 mt-5 bg-red-700 text-[#ffffff]" onClick={() => setOpenCancelModal(true)}><IconCancel />Cancel this registration</button>
           </div>
         }
       </div>

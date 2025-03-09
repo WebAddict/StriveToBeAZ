@@ -133,6 +133,19 @@ export async function updateRegistrationUniqueid(uniqueId : string, registerId :
     }
 }
 
+export async function cancelRegistration( uniqueId: string, id: string,) {
+    try {
+        const escapedUniqueId = qstr(uniqueId);
+        const escapedId = qstr(id);
+        let sql = `DELETE FROM REGISTRATIONS WHERE uniqueid = ${escapedUniqueId} AND id = ${escapedId}`;
+        const data = await fetchDb(sql);
+        return { success: true, sql: sql };
+    } catch (error) {
+        throw new Error(`Error: ${JSON.stringify(error)}`);
+    }
+}
+
+
 
 
   
