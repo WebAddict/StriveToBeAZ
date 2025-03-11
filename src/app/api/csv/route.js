@@ -52,7 +52,7 @@ export async function GET(request) {
     const csv = `${headers}\n${rows}`;
       return new Response(csv, {
         headers: {
-          "Content-Type": "text/plain", // text/csv or text/plain
+          "Content-Type": "text/csv", // text/csv or text/plain
           "Access-Control-Allow-Origin": "*" // Allow Google Sheets to access it
         }
       });

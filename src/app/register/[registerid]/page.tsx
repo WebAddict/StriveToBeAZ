@@ -101,7 +101,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
         <div className="max-w-lg w-full bg-gray-700 text-white p-8 rounded-lg shadow-xl text-center">
           <h2 className="text-3xl font-semibold mb-4">Oops! No Registration Found</h2>
           <p className="text-lg mb-4">
-            We couldn't find a registration matching the provided ID. Please verify your link is correct and try again.
+            We couldn&#39;t find a registration matching the provided ID. Please verify your link is correct and try again.
           </p>
         </div>
       </div>
@@ -275,7 +275,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
           <div>
             <div className="my-12">
               <div className="text-white text-center text-3xl font-semibold">
-                You're almost there!
+                You&#39;re almost there!
               </div>
             </div>
             <div className="mb-20 flex flex-col items-center">
