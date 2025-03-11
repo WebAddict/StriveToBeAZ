@@ -117,7 +117,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       gateOpen: "7pm",
       location: "Mesa Amphitheater",
       locationAlt: "263 N Center St, Mesa, AZ 85201",
-      header: "This ENTRY PASS is required for entry, but does not guarantee entry. Gates open at 7pm, first come first serve."
+      header: "This ENTRY PASS is required for entry"
     },
     tucson: {
       name: "Tucson",
@@ -126,7 +126,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       gateOpen: "5pm",
       location: "Mica Mountain High School Stadium",
       locationAlt: "10800 E Valencia Rd, Tucson, AZ 85747",
-      header: "This ENTRY PASS is required for entry, but does not guarantee entry. Gates open at 5pm, first come first serve."
+      header: "This ENTRY PASS is required for entry"
     },
   };
 
