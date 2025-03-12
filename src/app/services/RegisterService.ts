@@ -22,6 +22,7 @@ export interface RegisterData {
 export interface RegisterConfirm {
     confirmFSY: boolean;
     confirmAdult: boolean;
+    confirmPhotos: boolean;
 }
 
 export function validateEmailInput(email: string) {

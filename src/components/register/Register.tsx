@@ -38,6 +38,7 @@ export default function Register({ event, isConfirm = false, registration = null
   const [confirm, setConfirm] = useState<RegisterConfirm>({
     confirmFSY: false,
     confirmAdult: false,
+    confirmPhotos: false,
   })
   const router = useRouter();
 
@@ -114,7 +115,7 @@ export default function Register({ event, isConfirm = false, registration = null
       mobile: userRegistration.mobile.trim(),
       stake: userRegistration.stake.trim(),
       childName: userRegistration.childName.trim(),
-      isConfirm: isConfirm && confirm.confirmFSY && (userRegistration.age !== "Adult" || confirm.confirmAdult),
+      isConfirm: isConfirm && confirm.confirmFSY && confirm.confirmPhotos && (userRegistration.age !== "Adult" || confirm.confirmAdult),
       registerid: isConfirm ? userRegistration.uniqueId : null,
     };
 
@@ -211,7 +212,7 @@ export default function Register({ event, isConfirm = false, registration = null
       return;
     }
     if (isConfirm) {
-      if ((userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY) {
+      if ((userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY || !confirm.confirmPhotos) {
         setConfirmError('You must acknowledge the checkboxes above to finalize your registration process');
         setLoading(false);
         return;
@@ -236,7 +237,7 @@ export default function Register({ event, isConfirm = false, registration = null
         <div className={styles.form}>
           {isConfirm &&
             <div>
-            <div className="flex items-center">
+             <label className="flex items-center cursor-pointer mb-2">
               <input 
                 type="checkbox"
                 name="confirmFSY"
@@ -244,11 +245,21 @@ export default function Register({ event, isConfirm = false, registration = null
                 onChange={handleConfirmChange} 
                 className="form-checkbox h-10 w-10 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
               />
-              <span className="ml-4 text-white text-left">I acknowledge that my clothing choices will align with the standards outlined in the For the Strength of Youth</span>
-            </div>
+              <span className="ml-4 text-white text-left">I agree to dress &amp; act in accordance with the standards outlined in For the Strength of Youth.</span>
+            </label>
+            <label className="flex items-center cursor-pointer mb-2">
+              <input 
+                type="checkbox"
+                name="confirmPhotos"
+                checked={confirm.confirmPhotos}
+                onChange={handleConfirmChange} 
+                className="form-checkbox h-10 w-10 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="ml-4 text-white text-left">I consent to photos and videos of me being taken and used for event-related purposes.</span>
+            </label>
           
             {userRegistration.age === "Adult" && 
-              <div className="flex items-center mt-5">
+              <label className="flex items-center cursor-pointer mt-5">
                 <input 
                   type="checkbox"
                   name="confirmAdult"
@@ -257,7 +268,7 @@ export default function Register({ event, isConfirm = false, registration = null
                   className="form-checkbox h-7 w-7 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                   />
                 <span className="ml-4 text-white text-left">I acknowledge that I will accompany {userRegistration.childName} at all times during this event</span>
-              </div>
+              </label>
             }
           </div>
       
@@ -384,7 +395,7 @@ export default function Register({ event, isConfirm = false, registration = null
            {confirmError && <div className={styles.error}>{confirmError}</div>}
 
           {isConfirm ? 
-            <button onClick={handleSubmit} disabled={loading || (userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY} className={styles.button}>
+            <button onClick={handleSubmit} disabled={loading || (userRegistration.age === "Adult" && !confirm.confirmAdult) || !confirm.confirmFSY || !confirm.confirmPhotos} className={styles.button}>
               {loading ? 'Updating registration...' : 'Confirm'}
             </button> 
             :

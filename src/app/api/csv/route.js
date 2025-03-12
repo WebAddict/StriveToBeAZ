@@ -1,5 +1,6 @@
 import { getRegistrations } from "@/app/services/RegisterService";
 import { access } from "fs";
+import { stringify } from 'csv-stringify/sync';
 
 const API_TOKEN = process.env.D1_API_TOKEN;
 const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -46,13 +47,25 @@ export async function GET(request) {
   }
   try {
       const registrations = await getRegistrations(whichEvent);
-    // Convert results to CSV (or JSON if preferred)
-    const headers = Object.keys(registrations[0]).join(",");
-    const rows = registrations.map(row => Object.values(row).join(",")).join("\n");
-    const csv = `${headers}\n${rows}`;
+
+      // Convert to CSV using csv-stringify
+      const csv = stringify(registrations, {
+        header: true,           // Automatically includes headers from object keys
+        quoted: true,          // Ensures proper quoting of fields
+        quoted_empty: true,    // Quotes empty fields
+        quoted_string: true,    // Quotes all string fields
+        cast: {
+          string: (value) => value.trim(), // Trims all string values
+          // Optional: handle other types if needed
+          boolean: (value) => value.toString().trim(),
+          number: (value) => value.toString().trim()
+        }
+      });
+
       return new Response(csv, {
         headers: {
-          "Content-Type": "text/csv", // text/csv or text/plain
+          "Content-Type": "text/plain",
+//          "Content-Disposition": `attachment; filename="${whichEvent}_registrations.csv"`, // Suggests a filename
           "Access-Control-Allow-Origin": "*" // Allow Google Sheets to access it
         }
       });
