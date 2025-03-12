@@ -64,8 +64,8 @@ export async function GET(request) {
 
       return new Response(csv, {
         headers: {
-          "Content-Type": "text/plain",
-//          "Content-Disposition": `attachment; filename="${whichEvent}_registrations.csv"`, // Suggests a filename
+          "Content-Type": "text/csv",
+          "Content-Disposition": `attachment; filename="${whichEvent}_registrations.csv"`, // Suggests a filename
           "Access-Control-Allow-Origin": "*" // Allow Google Sheets to access it
         }
       });
