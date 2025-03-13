@@ -14,59 +14,51 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "Who is invited to the Strive To Be Concert at the Mesa Amphitheater on Friday, March 28?",
-      answer: "All youth in the Greater Phoenix Area and their friends, ages 14 (at the time of the concert) to 18, are invited. Register for an Entry Pass at StriveToBeAZ.org and select the Mesa location. An Entry Pass is required for entry and will be available on the website through the concert date."
+      answer: "All youth ages 14–18 and their friends are invited. An entry pass is required and can be obtained at StriveToBeAZ.org. Registration will remain open until the concert date, but please register as soon as possible to secure your spot."
     },
     {
-      question: "Can Stakes and Wards start promoting the concert, or are we waiting for more information?",
-      answer: "Yes! You can use the English and Spanish flyers, as well as content from the social media pages @StriveToBeAZ, to share with youth and their parents. Encourage them to register at StriveToBeAZ.org."
+      question: "Can Stakes and Wards start promoting the concert now, or should they wait for more information?",
+      answer: "Yes, you can start promoting the concert immediately. Use the English and Spanish flyers and content from our social media pages (@StriveToBeAZ). Encourage youth—or parents on behalf of their youth—to register at StriveToBeAZ.org."
     },
     {
-      question: "How many Entry Passes will be available?",
-      answer: "There is no limit on Entry Passes. The Mesa Amphitheater has a capacity of 5,000. Doors open at 7:00 PM. Arriving early ensures entry and allows you to enjoy the Pre-Show, featuring Hip Hop Hommies, Rag Tag Band (a local high school group), and McKenna Breinholt, a Top 5 contestant on American Idol! Overflow seating will be available nearby if needed."
+      question: "How many entry passes will be available?",
+      answer: "The Mesa Amphitheater has a capacity of 5,000. Entry passes are required and can be obtained by registering at StriveToBeAZ.org. Entry is on a first-come, first-served basis for those with passes. Doors open at 7 PM, and early arrivals can enjoy a pre-show featuring Hip Hop Homies, Rag Tag Band (a local high school group), and McKenna Breinholt, a Top 5 contestant on *American Idol*."
     },
     {
       question: "Can youth with special needs be accommodated?",
-      answer: "Yes! The Mesa Amphitheater offers ADA accommodations, and ASL interpreters will be available. Youth needing a companion can have an adult register to accompany them. Send specific questions to info@StriveToBeAZ.org."
+      answer: "Yes, the Mesa Amphitheater is ADA-accessible, and ASL interpreters will be available. Youth needing a companion can have an adult register to accompany them. For specific accommodations, email info@StriveToBeAZ.org."
     },
     {
       question: "Is there free parking for the Strive To Be Concert?",
-      answer: "Yes, there are some free parking lots near the Mesa Amphitheater. If those fill up, paid parking spots managed by the City of Mesa are available. Volunteers will greet and direct youth to and from parking lots before and after the concert."
+      answer: "Yes, free parking lots are available near the Mesa Amphitheater, along with paid parking options. Attendees are responsible for finding their own parking and should be prepared to pay if free spaces are unavailable."
     },
     {
-      question: "Can I drop off my teenagers and pick them up afterward?",
-      answer: "Yes! Thank you for bringing them! This will be an awesome experience for our youth. Downtown Mesa offers plenty to explore, including the Mesa Temple and delicious restaurants. Drop-off will be similar to Stake Dances. For pickup, establish a meeting plan in case phone batteries die during the concert."
+      question: "Can I drop off my teenagers and pick them up after the concert?",
+      answer: "Yes, drop-off and pick-up will be similar to any major concert production. Attendees are responsible for their own arrangements. Downtown Mesa offers activities and dining options for parents or leaders planning to wait. Establish a clear pick-up location and communication plan with your youth in advance."
     },
     {
-      question: "Our Stake is farther away, and we're considering renting a bus to transport our youth. Is there a place to park it?",
-      answer: "Yes! There are parking options near the Mesa Amphitheater, and a nearby Stake Center can accommodate a bus to park and wait."
+      question: "Our Stake is considering renting a bus to transport our youth. Is there parking available for buses?",
+      answer: "Carpooling and buses are encouraged, but attendees must arrange their own parking. Contact info@StriveToBeAZ.org for assistance with bus parking options if needed."
     },
     {
-      question: "If I register but can't attend, can I cancel my Entry Pass?",
-      answer: "Yes! Thank you for considering this. The final email with your Entry Pass will include an option to return it."
+      question: "If I register but can’t attend, can I cancel my entry pass?",
+      answer: "Yes, you can cancel your entry pass using the cancellation option in the confirmation email sent before the concert. Alternatively, email info@StriveToBeAZ.org to cancel."
     },
     {
-      question: "Can youth who are old enough drive themselves?",
-      answer: "That's up to the parents! Parking is available, and volunteers will assist youth in all parking lots to ensure they arrive safely at the Mesa Amphitheater. Early arrivals can park in the closest free lots; paid lots managed by the City of Mesa (estimated $5–$15) are also available."
+      question: "If I’m driving my youth, can I stay for the concert?",
+      answer: "No, due to limited capacity, parents and leaders are asked to drop off and return for pick-up. Arrange a clear pick-up and communication plan in advance. If your youth requires specific accommodations, email info@StriveToBeAZ.org."
     },
     {
-      question: "How many adult volunteers do you need from each Stake?",
-      answer: "Four adults: 1 Stake YW President (or a substitute), 1 Stake YM President (or a substitute), 1 male (to assist with parking and security), and 1 female (to help with greeting and assisting in and around the Mesa Amphitheater)."
+      question: "Can attendees bring a purse or bag to the concert?",
+      answer: "Per Mesa Amphitheater rules, only clear bags with permitted items are allowed. Clear plastic or vinyl PVC bags must not exceed 12\" x 6\" x 12\". Non-clear bags must be returned to vehicles. For details on permitted and prohibited items, visit https://www.mesaamphitheater.com/rules/. For specific questions, email info@StriveToBeAZ.org."
     },
     {
-      question: "If I'm driving my youth, can I stay with them?",
-      answer: "Thank you for driving! To maximize space for Arizona youth, parent drivers are asked to drop off and return later, similar to local Stake Dances. Please establish a pickup plan before dropping them off."
+      question: "Can attendees bring a drink or food to the concert?",
+      answer: "Per Mesa Amphitheater rules, one factory-sealed, unfrozen water bottle (up to 20 oz) per person is allowed. Food is not permitted. For details on permitted and prohibited items, visit https://www.mesaamphitheater.com/rules/. For specific questions, email info@StriveToBeAZ.org."
     },
     {
-      question: "I'm a Stake Leader and missed the informational Zoom meeting. Is there a recording?",
-      answer: "Yes! All Stake Leaders received an email from Elder Lewis requesting contact information for each Stake YW President, YM President, and High Council Member assigned to the Young Women. Those who provided this should receive an email with a link to the recorded Zoom meeting, Q&A, and flyers. If you think you should have received this but haven't, email info@StriveToBeAZ.org."
-    },
-    {
-      question: "Will there be snacks available?",
-      answer: "Yes! The Mesa Amphitheater's concession stand will offer snacks and drinks for purchase. No outside food or drinks are permitted."
-    },
-    {
-      question: "Can my teenager bring a purse or shoulder bag?",
-      answer: "The Mesa Amphitheater requires most bags to be returned to vehicles. Clear bags with approved items are allowed."
+      question: "Where can I find more information and updates?",
+      answer: "For the latest updates, visit www.StriveToBeAZ.org. For additional questions, email info@StriveToBeAZ.org. We look forward to an inspiring and memorable evening!"
     }
   ];
 
