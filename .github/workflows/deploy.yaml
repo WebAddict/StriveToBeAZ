@@ -1,0 +1,21 @@
+name: Inject Environment Variables
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  inject-env-vars:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Inject secrets into .env file
+        run: |
+          echo "D1_API_TOKEN=${{ secrets.D1_API_TOKEN }}" >> .env
+          echo "CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" >> .env
+          echo "DATABASE_ID=${{ secrets.DATABASE_ID }}" >> .env
+          echo "TURNSTILE_SECRET_KEY=${{ secrets.TURNSTILE_SECRET_KEY }}" >> .env
+          echo "TURNSTILE_SITE_KEY=${{ secrets.TURNSTILE_SITE_KEY }}" >> .env
+          echo "MG_API_KEY=${{ secrets.MG_API_KEY }}" >> .env
+          echo "MG_DOMAIN=${{ secrets.MG_DOMAIN }}" >> .env
