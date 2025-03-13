@@ -21,10 +21,6 @@ const FAQSection = () => {
       answer: "Yes, you can start promoting the concert immediately. Use the English and Spanish flyers and content from our social media pages (@StriveToBeAZ). Encourage youth—or parents on behalf of their youth—to register at StriveToBeAZ.org."
     },
     {
-      question: "How many entry passes will be available?",
-      answer: "The Mesa Amphitheater has a capacity of 5,000. Entry passes are required and can be obtained by registering at StriveToBeAZ.org. Entry is on a first-come, first-served basis for those with passes. Doors open at 7 PM, and early arrivals can enjoy a pre-show featuring Hip Hop Homies, Rag Tag Band (a local high school group), and McKenna Breinholt, a Top 5 contestant on *American Idol*."
-    },
-    {
       question: "Can youth with special needs be accommodated?",
       answer: "Yes, the Mesa Amphitheater is ADA-accessible, and ASL interpreters will be available. Youth needing a companion can have an adult register to accompany them. For specific accommodations, email info@StriveToBeAZ.org."
     },
