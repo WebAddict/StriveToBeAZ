@@ -134,6 +134,18 @@ export async function updateRegistrationUniqueid(uniqueId : string, registerId :
     }
 }
 
+export async function updateEmailSentDate(uniqueId : string, registerId : string) {
+    try {
+        const escapedUniqueId = qstr(uniqueId);
+        const escapedRegisterId = qstr(registerId);
+        let sql = `UPDATE REGISTRATIONS SET email_notification_date = CURRENT_TIMESTAMP WHERE id = ${escapedRegisterId} AND uniqueid = ${escapedUniqueId}`;
+        const data = await fetchDb(sql);
+        return true;
+    } catch (error) {
+        throw new Error(`Error: ${JSON.stringify(error)}`);
+    }
+}
+
 export async function cancelRegistration( uniqueId: string, id: string,) {
     try {
         const escapedUniqueId = qstr(uniqueId);
@@ -143,6 +155,38 @@ export async function cancelRegistration( uniqueId: string, id: string,) {
         return { success: true, sql: sql };
     } catch (error) {
         throw new Error(`Error: ${JSON.stringify(error)}`);
+    }
+}
+
+export async function getUnsentEmailRegistrations() {
+    try {
+        let sql = "SELECT * FROM REGISTRATIONS WHERE email_notification_date IS NULL OR email_notification_date = ''";
+        const data = await fetchDb(sql);
+        return data;
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
+    }
+}
+
+export async function getRegistrationsEventCount(event : string) {
+    try {
+        const escapedEvent = qstr(event);
+        let sql = `SELECT COUNT(*) FROM REGISTRATIONS' WHERE event = ${escapedEvent}`;
+        const data = await fetchDb(sql);
+        return data;
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
+    }
+}
+
+export async function getRegistrationsStakeCount() {
+    try {
+        const escapedEvent = qstr(event);
+        let sql = "SELECT COUNT(*), LOWER(stake) AS normalized_stake FROM REGISTRATIONS GROUP BY LOWER(stake)";
+        const data = await fetchDb(sql);
+        return data;
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
     }
 }
 
