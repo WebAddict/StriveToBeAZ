@@ -17,6 +17,7 @@
     "csv-stringify": "^6.5.2",
     "dotenv": "^16.4.7",
     "html2canvas": "^1.4.1",
+    "mailgun-js": "^0.22.0",
     "next": "14.2.23",
     "next-turnstile": "^1.0.2",
     "react": "18.3.1",
@@ -41,6 +42,7 @@
   },
   "scripts": {
     "run-uniqueids": "tsx scripts/register-uniqueids.ts",
+    "test-email": "tsx scripts/test-email.ts",
     "build": "next build",
     "check": "opennextjs-cloudflare && tsc && wrangler deploy --dry-run",
     "deploy": "opennextjs-cloudflare && wrangler deploy",
