@@ -99,7 +99,7 @@ export async function getRegistrations(event=false) {
     }
 }
 
-export async function getStakesRegistrations(event=false, sort=false) {
+export async function getStakesRegistrations(event: string | false = false, sort: 'count' | 'stake' | false = false) {
     try {
         let sql = "SELECT COUNT(*) as count, stake FROM registrations";
         if (event) {
@@ -109,9 +109,9 @@ export async function getStakesRegistrations(event=false, sort=false) {
             sql += ` GROUP BY stake COLLATE NOCASE`;
         }
         let sortSql = " ORDER BY count DESC";
-        if (!sort || sort == 'count') {
+        if (!sort || sort === 'count') {
             sql += sortSql;
-        } else if (sort == 'stake') {
+        } else if (sort === 'stake') {
             sortSql = " ORDER BY stake ASC";
             sql += sortSql;
         }
