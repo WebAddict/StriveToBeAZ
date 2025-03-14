@@ -14,11 +14,13 @@ export async function GET(request) {
   const url = new URL(request.url);
   const securityToken = url.searchParams.get("security_token");
   const whichEvent = url.searchParams.get("event");
-  const whichData = url.searchParams.get("data");
+  let whichData = url.searchParams.get("data");
+  let whichSort = url.searchParams.get("sort");
 
   // Define valid events
   const validEvents = ["mesa", "tucson"];
   const validData = ["registration", "stake"];
+  const validSort = ["count", "stake"];
 
   // Check if event parameter exists and is one of the valid options
   if (!whichEvent || !validEvents.includes(whichEvent)) {
@@ -27,7 +29,10 @@ export async function GET(request) {
     });
   }
   if (!whichData || !validData.includes(whichData)) {
-    //whichData = 'registration';
+    whichData = 'registration';
+  }
+  if (!whichSort || !validSort.includes(whichSort)) {
+    whichSort = 'count';
   }
 
   // Check if security_token exists and matches "abcdefg"
@@ -41,7 +46,7 @@ export async function GET(request) {
     });
   }
   if (whichData === 'stake') {
-      const stakesRegistrations = await getStakesRegistrations(whichEvent);
+      const stakesRegistrations = await getStakesRegistrations(whichEvent, whichSort);
       // Convert to CSV using csv-stringify
       const csv = stringify(stakesRegistrations, {
         header: true,           // Automatically includes headers from object keys

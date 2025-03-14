@@ -99,14 +99,21 @@ export async function getRegistrations(event=false) {
     }
 }
 
-export async function getStakesRegistrations(event=false) {
+export async function getStakesRegistrations(event=false, sort=false) {
     try {
         let sql = "SELECT COUNT(*) as count, stake FROM registrations";
         if (event) {
             const escapedEvent = qstr(event);
-            sql += ` WHERE event = ${escapedEvent} COLLATE NOCASE GROUP BY stake COLLATE NOCASE ORDER BY count DESC`;
+            sql += ` WHERE event = ${escapedEvent} COLLATE NOCASE GROUP BY stake COLLATE NOCASE`;
         } else {
-            sql += ` GROUP BY stake COLLATE NOCASE ORDER BY count DESC`;
+            sql += ` GROUP BY stake COLLATE NOCASE`;
+        }
+        let sortSql = " ORDER BY count DESC";
+        if (!sort || sort == 'count') {
+            sql += sortSql;
+        } else if (sort == 'stake') {
+            sortSql = " ORDER BY stake ASC";
+            sql += sortSql;
         }
         const data = await fetchDb(sql);
         return data;

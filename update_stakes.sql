@@ -197,6 +197,7 @@ UPDATE registrations SET stake='Sierra Vista Arizona Stake' WHERE stake LIKE '%S
 UPDATE registrations SET stake='Silver Creek Arizona Stake' WHERE stake LIKE '%Silver%Creek%' COLLATE NOCASE;
 UPDATE registrations SET stake='Snowflake Arizona Stake' WHERE stake LIKE '%Snowflake%' COLLATE NOCASE;
 UPDATE registrations SET stake='St David Arizona Stake' WHERE stake LIKE '%St David%' COLLATE NOCASE;
+UPDATE registrations SET stake='St David Arizona Stake' WHERE stake LIKE '%St. David%' COLLATE NOCASE;
 UPDATE registrations SET stake='St David Arizona Stake' WHERE stake LIKE '%Saint David%' COLLATE NOCASE;
 UPDATE registrations SET stake='St Johns Arizona Stake' WHERE stake LIKE '%St Johns%' COLLATE NOCASE;
 UPDATE registrations SET stake='St Johns Arizona Stake' WHERE stake LIKE '%Saint Johns%' COLLATE NOCASE;
