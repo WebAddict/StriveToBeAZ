@@ -245,7 +245,7 @@ export default function Register({ event, isConfirm = false, registration = null
                 onChange={handleConfirmChange} 
                 className="form-checkbox h-10 w-10 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
               />
-              <span className="ml-4 text-white text-left">I agree to dress &amp; act in accordance with the standards outlined in For the Strength of Youth.</span>
+              <span className="ml-4 text-white text-left">I agree to dress &amp; act in accordance with the standards outlined in <a href="https://www.churchofjesuschrist.org/study/manual/for-the-strength-of-youth?lang=eng" target="_blank" rel="noreferrer" className="underline">For the Strength of Youth</a></span>
             </label>
             <label className="flex items-center cursor-pointer mb-2">
               <input 

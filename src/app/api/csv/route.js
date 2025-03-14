@@ -1,4 +1,4 @@
-import { getRegistrations } from "@/app/services/RegisterService";
+import { getRegistrations, getStakesRegistrations } from "@/app/services/RegisterService";
 import { access } from "fs";
 import { stringify } from 'csv-stringify/sync';
 
@@ -41,10 +41,28 @@ export async function GET(request) {
     });
   }
   if (whichData === 'stake') {
-    return new Response("This would be stake data", {
-      status: 200
-    });
-  }
+      const stakesRegistrations = await getStakesRegistrations(whichEvent);
+      // Convert to CSV using csv-stringify
+      const csv = stringify(stakesRegistrations, {
+        header: true,           // Automatically includes headers from object keys
+        quoted: true,          // Ensures proper quoting of fields
+        quoted_empty: true,    // Quotes empty fields
+        quoted_string: true,    // Quotes all string fields
+        cast: {
+          string: (value) => value.trim(), // Trims all string values
+          // Optional: handle other types if needed
+          boolean: (value) => value.toString().trim(),
+          number: (value) => value.toString().trim()
+        }
+      });
+      return new Response(csv, {
+        headers: {
+          "Content-Type": "text/csv",
+          "Content-Disposition": `attachment; filename="${whichEvent}_stake_registrations.csv"`, // Suggests a filename
+          "Access-Control-Allow-Origin": "*" // Allow Google Sheets to access it
+        }
+      });
+    }
   try {
       const registrations = await getRegistrations(whichEvent);
 

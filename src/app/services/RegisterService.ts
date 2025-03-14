@@ -99,6 +99,22 @@ export async function getRegistrations(event=false) {
     }
 }
 
+export async function getStakesRegistrations(event=false) {
+    try {
+        let sql = "SELECT COUNT(*) as count, stake FROM registrations";
+        if (event) {
+            const escapedEvent = qstr(event);
+            sql += ` WHERE event = ${escapedEvent} COLLATE NOCASE GROUP BY stake COLLATE NOCASE ORDER BY count DESC`;
+        } else {
+            sql += ` GROUP BY stake COLLATE NOCASE ORDER BY count DESC`;
+        }
+        const data = await fetchDb(sql);
+        return data;
+    } catch (error) {
+        throw new Error('Error fetching registrations: ' +  JSON.stringify(error))
+    }
+}
+
 export async function getRegistrationByUniqueId(uniqueId : string) {
     try {
         const id = qstr(uniqueId);
